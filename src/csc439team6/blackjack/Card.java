@@ -65,4 +65,9 @@ public class Card {
     public int hashCode() {
         return Objects.hash(number, suit);
     }
+
+    @Override
+    public String toString() {
+        return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
+    }
 }

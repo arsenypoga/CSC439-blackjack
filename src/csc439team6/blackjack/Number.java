@@ -23,6 +23,5 @@ public enum Number {
     TEN,
     JACK,
     QUEEN,
-    KING;
-
+    KING
 }

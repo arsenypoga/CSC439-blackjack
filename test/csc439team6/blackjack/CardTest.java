@@ -1,5 +1,7 @@
 package csc439team6.blackjack;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -28,5 +30,11 @@ public class CardTest {
         assertEquals(card1, card2);
         assertNotEquals(card1, card3);
 
+    }
+
+    @Test
+    public void testToString() {
+        Card card = new Card(Number.TEN, Suit.SPADES);
+        assertEquals("<Card Number=(TEN) Suit=(SPADES)>", card.toString());
     }
 }

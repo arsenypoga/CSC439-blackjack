@@ -10,6 +10,7 @@ public class Main {
      * @param args blah
      */
     public static void main(String[] args) {
-        System.out.println("Working");
+        Card card = new Card(Number.NINE, Suit.SPADES);
+        System.out.println(card);
     }
 }
