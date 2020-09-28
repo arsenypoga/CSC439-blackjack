@@ -11,13 +11,13 @@ import static org.junit.Assert.*;
 public class CardTest {
 
     @org.junit.Test
-    public void getNumber() {
+    public void getNumberTest() {
         Card card = new Card(Number.TEN, Suit.SPADES);
         assertEquals(card.getNumber(), Number.TEN);
     }
 
     @org.junit.Test
-    public void getSuit() {
+    public void getSuitTest() {
         Card card = new Card(Number.TEN, Suit.SPADES);
         assertEquals(card.getSuit(), Suit.SPADES);
     }
