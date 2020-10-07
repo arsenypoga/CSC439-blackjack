@@ -41,7 +41,7 @@ public class CardTest {
     /**
      * Test method to check that the hashcode of two card objects with the same properties will return
      * the same hash value.
-     */
+     */ 
     @Test
     public void matchingHashTest() {
         Card card1 = new Card(Number.TEN, Suit.SPADES);
