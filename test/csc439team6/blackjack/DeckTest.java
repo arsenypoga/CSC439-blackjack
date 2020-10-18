@@ -1,6 +1,9 @@
 package csc439team6.blackjack;
 
 import org.junit.Test;
+
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.*;
 
 public class DeckTest {
@@ -11,21 +14,23 @@ public class DeckTest {
      */
     @Test
     public void fillDeckTest() {
+        Card card1, card2;
         Deck deck = new Deck();
-        for(int i = 0; i < 52; i++) {
-            Card card1 = deck.getCards().get(i);
-            for(int j = i + 1; j < deck.getSize(); j++) {
-                Card card2 = deck.getCards().get(j);
-                assertNotEquals(card1, card2);
+        card1 = deck.pickCard();
+
+        while (!deck.isEmpty()) {
+              card2 = deck.pickCard();
+
+              assertNotEquals(card1, card2);
+              card1 = card2;
             }
-        }
     }
 
     /**
      * test method which will make sure that a depleted deck of card will throw an index out of bounds exception
      * done through picking 52 cards and then trying to pick a 53rd
      */
-    @Test (expected = IndexOutOfBoundsException.class)
+    @Test (expected = NoSuchElementException.class)
     public void emptyDeckTest() {
         Deck deck = new Deck();
         for(int i = 0; i < 53; i++) {
@@ -37,10 +42,10 @@ public class DeckTest {
      * test method to test the deck size each time a card is drawn until the deck is empty.
      */
     @Test
-    public void getSizeTest() {
+    public void sizeTest() {
         Deck deck = new Deck();
         for(int i = 52; i > 0; i--) {
-            assertEquals(i, deck.getSize());
+            assertEquals(i, deck.size());
             deck.pickCard();
         }
     }

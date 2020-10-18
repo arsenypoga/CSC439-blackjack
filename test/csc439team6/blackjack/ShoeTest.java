@@ -14,9 +14,9 @@ public class ShoeTest {
     @Test
     public void pickCard() {
         Shoe shoe = new Shoe(3);
-        System.out.println(shoe.cardCount());
+        System.out.println(shoe.size());
         shoe.pickCard();
-        assertEquals(shoe.cardCount(), 155);
+        assertEquals(shoe.size(), 155);
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -36,19 +36,19 @@ public class ShoeTest {
             shoe.pickCard();
         }
 
-        System.out.println(shoe.cardCount());
+        System.out.println(shoe.size());
         assertEquals(0, shoe.deckCount());
     }
 
     @Test
     public void cardCount() {
         Shoe shoe = new Shoe(1);
-        assertEquals(52, shoe.cardCount());
+        assertEquals(52, shoe.size());
 
         shoe = new Shoe(2);
-        assertEquals(52*2, shoe.cardCount());
+        assertEquals(52*2, shoe.size());
 
         shoe = new Shoe(3);
-        assertEquals(52*3, shoe.cardCount());
+        assertEquals(52*3, shoe.size());
     }
 }

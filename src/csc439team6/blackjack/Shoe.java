@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
- * Shoe class simlates a shoe of multiple decks in blackjack
+ * Shoe class simulates a shoe of multiple decks in blackjack
  *
  * @author Arseny Poga
  * @version 1.0
@@ -34,7 +34,7 @@ public class Shoe {
         Deck deck = decks.get(deckLocation);
         Card card = deck.pickCard();
 
-        if (deck.getSize() == 0) {
+        if (deck.isEmpty()) {
             decks.remove(deckLocation);
         }
         return card;
@@ -54,11 +54,11 @@ public class Shoe {
      *
      * @return int card count
      */
-    public int cardCount() {
+    public int size() {
         int count = 0;
 
         for (Deck d : decks) {
-            count += d.getSize();
+            count += d.size();
         }
         return count;
     }
