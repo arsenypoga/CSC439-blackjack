@@ -54,7 +54,7 @@ public class Shoe {
      *
      * @return int card count
      */
-    public int size() {
+    public int cardCount() {
         int count = 0;
 
         for (Deck d : decks) {
