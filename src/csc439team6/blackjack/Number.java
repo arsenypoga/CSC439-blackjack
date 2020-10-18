@@ -5,9 +5,9 @@ package csc439team6.blackjack;
  *
  * While we could use integer representation, here we use an enum as it is more human readable.
  *
- * Note that the card values start from 0, not 1.
+ * Note that the card values start from 0 (ACE), not 1.
  *
- * @author Arseny Poga
+ * @author Arseny Poga, Cory Bradford, Greyson Fangman
  * @version 1.0
  */
 public enum Number {

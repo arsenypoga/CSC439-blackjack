@@ -3,11 +3,13 @@ package csc439team6.blackjack;
 import java.util.Objects;
 
 /**
- * This is a Card of a Blackjack game.
+ * Class used to create a Card object which will be used in the blackjack game.
+ * The properties of the object will be number and suit, which are assigned through use of the Number and Suit
+ * enum classes.
  *
- * Only represents a playing unit.
+ * Only represents a single playing unit.
  *
- * @author Arseny Poga
+ * @author Arseny Poga, Cory Bradford, Greyson Fangman
  * @version 1.0
  */
 public class Card {
@@ -15,9 +17,9 @@ public class Card {
     private final Suit suit;
 
     /**
-     * Creates a Card object.
-     * @param number
-     * @param suit
+     * Creates a Card object and sets the number and suit variables.
+     * @param number Number
+     * @param suit Suit
      */
     public Card(Number number, Suit suit) {
         this.number = number;
@@ -27,7 +29,7 @@ public class Card {
     /**
      * Retrieves card number
      *
-     * @return Card number
+     * @return Number number
      */
     public Number getNumber() {
         return number;
@@ -36,7 +38,7 @@ public class Card {
     /**
      * Retrieves Card suite.
      *
-     * @return Card suite
+     * @return Suit suite
      */
     public Suit getSuit() {
         return suit;
@@ -66,6 +68,10 @@ public class Card {
         return Objects.hash(number, suit);
     }
 
+    /**
+     * modified toString() method used to string together a human readable message of a card object's properties
+     * @return String
+     */
     @Override
     public String toString() {
         return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
