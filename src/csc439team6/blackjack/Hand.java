@@ -24,17 +24,16 @@ public class Hand {
     public Hand() {
         cards = new ArrayList<>();
     }
-
     
     /**
      * The addCard method should take a card as a parameter and add it to the hand.
      *
      * @return addedCard
      */
-    public boolean addCard(Card c) {
+    public void addCard(Card c) {
         if (c == null)
             throw new IllegalArgumentException("Can't add a null card to a hand.");
-        return cards.add(c);
+        cards.add(c);
     }
 
     /**
