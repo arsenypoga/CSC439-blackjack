@@ -11,8 +11,8 @@ import java.util.Random;
  * @version 1.0
  */
 public class Shoe {
-    private final Random random = new Random();
-    private final ArrayList<Deck> decks = new ArrayList<>();
+    private final Random RANDOM = new Random();
+    private ArrayList<Deck> decks = new ArrayList<>();
 
     public Shoe(int deckNumber) {
         for (int i = 0; i < deckNumber; i++) {
@@ -30,7 +30,7 @@ public class Shoe {
             throw new NoSuchElementException();
         }
 
-        int deckLocation = random.nextInt(decks.size());
+        int deckLocation = RANDOM.nextInt(decks.size());
         Deck deck = decks.get(deckLocation);
         Card card = deck.pickCard();
 

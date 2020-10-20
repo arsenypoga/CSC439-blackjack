@@ -13,8 +13,8 @@ import java.util.Random;
  * @version 1.0
  */
 public class Deck {
-    private final ArrayList<Card> cards = new ArrayList<>();
-    private final Random random = new Random();
+    private ArrayList<Card> cards = new ArrayList<>();
+    private final Random RANDOM = new Random();
 
     public Deck() {
         for(Suit suit : Suit.values()) {
@@ -37,7 +37,7 @@ public class Deck {
             throw new NoSuchElementException();
 
         } else {
-            int cardLocation = random.nextInt(cards.size());
+            int cardLocation = RANDOM.nextInt(cards.size());
             Card cardPicked = cards.get(cardLocation);
             cards.remove(cardPicked);
 

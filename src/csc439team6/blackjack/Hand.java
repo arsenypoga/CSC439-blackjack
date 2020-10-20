@@ -19,7 +19,7 @@ import java.util.List;
  * Write appropriate JUnit tests to ensure all of the above logic works correctly.
  */
 public class Hand {
-    private final ArrayList<Card> cards;
+    private ArrayList<Card> cards;
 
     public Hand() {
         cards = new ArrayList<>();
