@@ -1,4 +1,4 @@
-package csc439team6.blackjack;
+package csc439team6.blackjack.models;
 
 /**
  * Number is a card number.

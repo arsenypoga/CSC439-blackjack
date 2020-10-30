@@ -1,5 +1,6 @@
 package csc439team6.blackjack;
 
+import csc439team6.blackjack.models.Shoe;
 import org.junit.Test;
 
 import java.util.NoSuchElementException;
