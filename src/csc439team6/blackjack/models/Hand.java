@@ -53,5 +53,8 @@ public class Hand {
     public List<Card> getCards() {
         return cards;
     }
+    public void clear() {
+        this.cards.clear();
+    }
 
 }

@@ -16,8 +16,8 @@ public class Deck {
     private final Random RANDOM = new Random();
 
     public Deck() {
-        for(Suit suit : Suit.values()) {
-            for(Number number: Number.values()) {
+        for(Card.Suit suit : Card.Suit.values()) {
+            for(Card.Number number: Card.Number.values()) {
                 Card card = new Card(number, suit);
                 cards.add(card);
             }
