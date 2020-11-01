@@ -1,5 +1,8 @@
 package csc439team6.blackjack;
 
+import csc439team6.blackjack.models.Card;
+import csc439team6.blackjack.models.Number;
+import csc439team6.blackjack.models.Suit;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
