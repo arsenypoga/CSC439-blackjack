@@ -1,6 +1,7 @@
-package csc439team6.blackjack;
+package csc439team6.blackjack.models;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -11,40 +12,31 @@ import java.util.Random;
  * @version 1.0
  */
 public class Deck {
-    private ArrayList<Card> cards;
-    private Random random = new Random();
+    private ArrayList<Card> cards = new ArrayList<>();
+    private final Random RANDOM = new Random();
 
     public Deck() {
-        this.cards = fillDeck();
-    }
-
-    /**
-     * method used to fill the Collection with all 52 cards through use of a nested loop
-     * each card is added to the class ArrayList.
-     * @param
-     */
-    private ArrayList<Card> fillDeck() {
-        ArrayList<Card> cards = new ArrayList<>();
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < 13; j++) {
-                Card card = new Card(Number.values()[j], Suit.values()[i]);
+        for(Card.Suit suit : Card.Suit.values()) {
+            for(Card.Number number: Card.Number.values()) {
+                Card card = new Card(number, suit);
                 cards.add(card);
             }
         }
-        return cards;
     }
+
 
     /**
      * method used to pick a random Card object from the defined collection.
      * if the size of the collection is <= 0 and exception will be thrown.
      * @return cardPicked Card
-     * @throws IndexOutOfBoundsException
+     *
      */
-    public Card pickCard() throws IndexOutOfBoundsException {
-        if(cards.size() <= 0) {
-            throw new IndexOutOfBoundsException();
+    public Card pickCard() {
+        if(cards.isEmpty()) {
+            throw new NoSuchElementException();
+
         } else {
-            int cardLocation = random.nextInt(cards.size());
+            int cardLocation = RANDOM.nextInt(cards.size());
             Card cardPicked = cards.get(cardLocation);
             cards.remove(cardPicked);
 
@@ -56,11 +48,15 @@ public class Deck {
      * returns the current size of the deck
      * @return int
      */
-    public int getSize() {
+    public int size() {
         return cards.size();
     }
 
-    public ArrayList<Card> getCards() {
-        return cards;
+    /**
+     * Is the Deck empty?
+     * @return boolean isEmpty
+     */
+    public boolean isEmpty() {
+        return this.cards.isEmpty();
     }
 }
