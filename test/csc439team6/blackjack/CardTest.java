@@ -1,8 +1,6 @@
 package csc439team6.blackjack;
 
 import csc439team6.blackjack.models.Card;
-import csc439team6.blackjack.models.Number;
-import csc439team6.blackjack.models.Suit;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -15,21 +13,21 @@ public class CardTest {
 
     @org.junit.Test
     public void getNumberTest() {
-        Card card = new Card(Number.TEN, Suit.SPADES);
-        assertEquals(card.getNumber(), Number.TEN);
+        Card card = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        assertEquals(card.getNumber(), Card.Number.TEN);
     }
 
     @org.junit.Test
     public void getSuitTest() {
-        Card card = new Card(Number.TEN, Suit.SPADES);
-        assertEquals(card.getSuit(), Suit.SPADES);
+        Card card = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        assertEquals(card.getSuit(), Card.Suit.SPADES);
     }
 
     @org.junit.Test
     public void testEquals() {
-        Card card1 = new Card(Number.TEN, Suit.SPADES);
-        Card card2 = new Card(Number.TEN, Suit.SPADES);
-        Card card3 = new Card(Number.NINE, Suit.SPADES);
+        Card card1 = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        Card card2 = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        Card card3 = new Card(Card.Number.NINE, Card.Suit.SPADES);
         assertEquals(card1, card2);
         assertNotEquals(card1, card3);
 
@@ -37,7 +35,7 @@ public class CardTest {
 
     @Test
     public void testToString() {
-        Card card = new Card(Number.TEN, Suit.SPADES);
+        Card card = new Card(Card.Number.TEN, Card.Suit.SPADES);
         assertEquals("<Card Number=(TEN) Suit=(SPADES)>", card.toString());
     }
 
@@ -47,8 +45,8 @@ public class CardTest {
      */ 
     @Test
     public void matchingHashTest() {
-        Card card1 = new Card(Number.TEN, Suit.SPADES);
-        Card card2 = new Card(Number.TEN, Suit.SPADES);
+        Card card1 = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        Card card2 = new Card(Card.Number.TEN, Card.Suit.SPADES);
         assertEquals(card1.hashCode(), card2.hashCode());
     }
 
@@ -58,8 +56,8 @@ public class CardTest {
      */
     @Test
     public void nonMatchingHashTest() {
-        Card card1 = new Card(Number.TEN, Suit.SPADES);
-        Card card2 = new Card(Number.NINE, Suit.SPADES);
+        Card card1 = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        Card card2 = new Card(Card.Number.NINE, Card.Suit.SPADES);
         assertNotEquals(card1.hashCode(), card2.hashCode());
     }
 }

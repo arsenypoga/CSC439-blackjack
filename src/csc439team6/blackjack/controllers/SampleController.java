@@ -5,4 +5,7 @@ package csc439team6.blackjack.controllers;
  * @version 1.0
  */
 public class SampleController {
+
+    public SampleController() {
+    }
 }
