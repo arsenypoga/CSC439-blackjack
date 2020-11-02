@@ -4,30 +4,18 @@ package csc439team6.blackjack.models;
  * @author Arseny Poga
  * @version 1.0
  */
-public class Player {
-    private final Hand hand;
+public class Player extends BasePlayer {
+    private static final int MINIMUM_BET = 10;
+    private static final int MAXIMUM_BET = 500;
     private int chips;
     private int bet;
 
-    private static final int MINIMUM_BET = 10;
-    private static final int MAXIMUM_BET = 500;
-
     public Player(int chips) {
+        super();
         this.chips = chips;
-        this.hand = new Hand();
+        this.bet = 0;
     }
 
-    public Hand getHand() {
-        return hand;
-    }
-
-    public void addCard(Card card) {
-        this.hand.addCard(card);
-    }
-
-    public void resetHand() {
-        this.hand.clear();
-    }
 
     public int getChips() {
         return chips;
@@ -41,19 +29,18 @@ public class Player {
         return bet;
     }
 
-    public void resetBet() {
-        this.bet = 0;
+    public void incrementBet(int bet) {
+        int totalBet = this.bet + bet;
+        if (totalBet > chips)
+            throw new IndexOutOfBoundsException("bet exceeds available chips");
+        else if (totalBet < MINIMUM_BET)
+            throw new IndexOutOfBoundsException("bet less than allowed");
+        else if (totalBet > MAXIMUM_BET)
+            throw new IndexOutOfBoundsException("bet more than allowed");
+        this.bet = totalBet;
     }
 
-    public void setBet(int bet) {
-        if (bet > chips)
-            throw new IndexOutOfBoundsException("bet exceeds available chips");
-        else if (bet < MINIMUM_BET)
-            throw new IndexOutOfBoundsException("bet less than allowed");
-        else if (bet > MAXIMUM_BET)
-            throw new IndexOutOfBoundsException("bet more than allowed");
-
-        this.chips -= bet;
-        this.bet = bet;
+    public void resetBet() {
+        this.bet = 0;
     }
 }
