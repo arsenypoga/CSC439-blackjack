@@ -4,7 +4,7 @@ package csc439team6.blackjack.models;
  * @author Arseny Poga
  * @version 1.0
  */
-public class Player extends BasePlayer {
+public class Player extends AbstractPlayer {
     private static final int MINIMUM_BET = 10;
     private static final int MAXIMUM_BET = 500;
     private int chips;

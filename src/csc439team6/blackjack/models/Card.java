@@ -15,6 +15,7 @@ public class Card {
     private final Number number;
     private final Suit suit;
     private boolean isVisible;
+
     /**
      * Creates a Card object and sets the number and suit variables.
      *
@@ -27,15 +28,15 @@ public class Card {
         this.isVisible = false;
     }
 
-     public boolean isVisible() {
-     return isVisible;
-     }
+    public boolean isVisible() {
+        return isVisible;
+    }
 
-     public void setVisible(boolean visible) {
-     isVisible = visible;
-     }
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
 
-     /**
+    /**
      * Retrieves card number
      *
      * @return Number number
@@ -88,6 +89,10 @@ public class Card {
         return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
     }
 
+    public String displayString() {
+        return this.suit.toString().toUpperCase().charAt(0) + this.number.shortString();
+    }
+
     /**
      * Enum representing 4 card suites.
      *
@@ -124,6 +129,52 @@ public class Card {
         TEN,
         JACK,
         QUEEN,
-        KING
+        KING;
+
+        public String shortString() {
+            String returnString = "";
+            switch (this) {
+                case ACE:
+                    returnString = "A";
+                    break;
+                case TWO:
+                    returnString = "2";
+                    break;
+                case THREE:
+                    returnString = "3";
+                    break;
+                case FOUR:
+                    returnString = "4";
+                    break;
+                case FIVE:
+                    returnString = "5";
+                    break;
+                case SIX:
+                    returnString = "6";
+                    break;
+                case SEVEN:
+                    returnString = "7";
+                    break;
+                case EIGHT:
+                    returnString = "8";
+                    break;
+                case NINE:
+                    returnString = "9";
+                    break;
+                case TEN:
+                    returnString = "10";
+                    break;
+                case JACK:
+                    returnString = "J";
+                    break;
+                case QUEEN:
+                    returnString = "Q";
+                    break;
+                case KING:
+                    returnString = "K";
+                    break;
+            }
+            return returnString;
+        }
     }
 }

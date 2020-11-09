@@ -3,6 +3,9 @@ package csc439team6.blackjack.controllers;
 import csc439team6.blackjack.models.*;
 import csc439team6.blackjack.views.AbstractView;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 /**
  * @author Arseny Poga, Cory Bradford
  * @version 1.0
@@ -15,17 +18,25 @@ public class MainController {
 
     public MainController(AbstractView view) {
         this.view = view;
-        this.player = new Player(0);
         this.dealer = new Dealer();
         this.shoe =  new Shoe(3);
+        this.player = new Player(0);
     }
 
     public void playBlackjack() {
         gameStartedMessage();
         purchaseChips();
         makeInitialBet();
-        dealInitialHands(player, dealer);
-        displayInitialHands(player.getHand(), dealer.getHand());
+
+        this.player.addCard(shoe.pickCard());
+        this.player.addCard(shoe.pickCard());
+
+        this.dealer.addCard(shoe.pickCard());
+        this.dealer.addCard(shoe.pickCard());
+
+        displayHand(player);
+        displayHand(dealer);
+
     }
 
     public void gameStartedMessage() {
@@ -33,39 +44,33 @@ public class MainController {
     }
 
     public void purchaseChips() {
-        int chips = view.purchaseChips(player);
-        player.addChips(chips);
+        try {
+            int chips = view.purchaseChips(player);
+            player.addChips(chips);
+        } catch (IOException e) {
+            view.quitGame();
+            System.exit(0);
+        }
     }
 
+    // TODO: validate that the bet is in range!
     public void makeInitialBet() {
         try {
             int bet = view.getInitialBet();
             player.incrementBet(bet);
             player.reduceChips(bet);
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(e.getMessage());
-            makeInitialBet();
+        } catch (IOException e) {
+            view.quitGame();
+            System.exit(0);
         }
     }
 
-    public void dealInitialHands(BasePlayer player, BasePlayer dealer) {
-        for(int i = 0; i < 2; i++) {
-            Card card = shoe.pickCard();
-            player.addCard(card);
-        }
 
-        for(int i = 0; i < 2; i++) {
-            Card card = shoe.pickCard();
-            dealer.addCard(card);
-        }
+    public void displayHand(AbstractPlayer player) {
+        view.displayHand(player);
     }
 
-    public void displayInitialHands(Hand playerHand, Hand dealerHand) {
-        view.displayPlayerHand(playerHand);
-        view.displayDealerHand(dealerHand);
-    }
-
-    public void dealCard(BasePlayer player) {
+    public void dealCard(AbstractPlayer player) {
         Card card = shoe.pickCard();
         player.addCard(card);
     }

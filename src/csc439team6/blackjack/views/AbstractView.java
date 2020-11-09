@@ -1,8 +1,11 @@
 package csc439team6.blackjack.views;
 
-import csc439team6.blackjack.models.BasePlayer;
+import csc439team6.blackjack.models.AbstractPlayer;
 import csc439team6.blackjack.models.Hand;
 import csc439team6.blackjack.models.Player;
+
+import java.io.IOError;
+import java.io.IOException;
 
 /**
  * @author Arseny Poga, Cory Bradford
@@ -20,20 +23,19 @@ public abstract class AbstractView {
      * Purchase initial chips, prompt user
      * @return number of chips purchased.
      */
-    public abstract int purchaseChips(Player player);
+    public abstract int purchaseChips(Player player) throws IOException;
 
     /**
      * Get initial bet from User.
      * @return
      */
-    public abstract int getInitialBet();
+    public abstract int getInitialBet() throws IOException;
 
     /**
      *
      */
-    public abstract int incrementBet();
-    public abstract void displayPlayerHand(Hand hand);
-    public abstract void displayDealerHand(Hand hand);
-    public abstract void showGameStatus(); // Same as the above, needs further code
-    public abstract boolean quitGame(); // If any input is quit: prompt is user REALLY wants to quit.
+    public abstract int incrementBet() throws IOError;
+    public abstract void displayHand(AbstractPlayer player) throws IOError;
+    public abstract void showGameStatus() throws IOError; // Same as the above, needs further code
+    public abstract void quitGame();
 }
