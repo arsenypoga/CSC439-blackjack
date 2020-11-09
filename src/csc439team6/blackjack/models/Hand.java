@@ -50,9 +50,10 @@ public class Hand {
      *
      * @return getCard
      */
-    public List<Card> getCards() {
+    public ArrayList<Card> getCards() {
         return cards;
     }
+
     public void clear() {
         this.cards.clear();
     }

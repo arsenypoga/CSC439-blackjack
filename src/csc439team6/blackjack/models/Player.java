@@ -25,6 +25,10 @@ public class Player extends BasePlayer {
         this.chips += chips;
     }
 
+    public void reduceChips(int chips) {
+        this.chips -= chips;
+    }
+
     public int getBet() {
         return bet;
     }

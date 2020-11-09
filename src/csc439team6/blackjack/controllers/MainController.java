@@ -4,7 +4,7 @@ import csc439team6.blackjack.models.*;
 import csc439team6.blackjack.views.AbstractView;
 
 /**
- * @author Arseny Poga
+ * @author Arseny Poga, Cory Bradford
  * @version 1.0
  */
 public class MainController {
@@ -20,23 +20,54 @@ public class MainController {
         this.shoe =  new Shoe(3);
     }
 
-    public void startGame() {
+    public void playBlackjack() {
+        gameStartedMessage();
+        purchaseChips();
+        makeInitialBet();
+        dealInitialHands(player, dealer);
+        displayInitialHands(player.getHand(), dealer.getHand());
+    }
 
+    public void gameStartedMessage() {
+        view.gameStartedMessage();
+    }
+
+    public void purchaseChips() {
+        int chips = view.purchaseChips(player);
+        player.addChips(chips);
+    }
+
+    public void makeInitialBet() {
+        try {
+            int bet = view.getInitialBet();
+            player.incrementBet(bet);
+            player.reduceChips(bet);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            makeInitialBet();
+        }
+    }
+
+    public void dealInitialHands(BasePlayer player, BasePlayer dealer) {
+        for(int i = 0; i < 2; i++) {
+            Card card = shoe.pickCard();
+            player.addCard(card);
+        }
+
+        for(int i = 0; i < 2; i++) {
+            Card card = shoe.pickCard();
+            dealer.addCard(card);
+        }
+    }
+
+    public void displayInitialHands(Hand playerHand, Hand dealerHand) {
+        view.displayPlayerHand(playerHand);
+        view.displayDealerHand(dealerHand);
     }
 
     public void dealCard(BasePlayer player) {
         Card card = shoe.pickCard();
         player.addCard(card);
-    }
-
-    public void purchaseChips() {
-        int chips = view.purchaseChips();
-        player.addChips(chips);
-    }
-
-    public void makeInitialBet() {
-        int bet = view.getInitialBet();
-        player.incrementBet(bet); // IN this case bet is 0, then increments to `bet`
     }
 
     public void incrementBet() {
