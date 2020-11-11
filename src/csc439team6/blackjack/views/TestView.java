@@ -1,22 +1,21 @@
 package csc439team6.blackjack.views;
 
-import csc439team6.blackjack.models.*;
+import csc439team6.blackjack.models.AbstractPlayer;
+import csc439team6.blackjack.models.Card;
+import csc439team6.blackjack.models.Dealer;
+import csc439team6.blackjack.models.Player;
 
-import java.io.BufferedReader;
-import java.io.Console;
+import java.io.IOError;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
-
 /**
- * CLI class which will be used to display messages to the user
- * @author Cory Bradford
+ * This is a copy of the CLIView class.
+ * @author Greyson Fangman
  */
-public class CLIView extends AbstractView {
+public class TestView extends AbstractView{
 
     Scanner scanner = new Scanner(System.in);
     private int bet;
-
     @Override
     public void gameStartedMessage() {
         System.out.println("Your game of blackjack has now started.");
@@ -25,27 +24,26 @@ public class CLIView extends AbstractView {
     }
 
     @Override
-    public int purchaseChips(Player player) throws IOException {
+    public int purchaseChips(Player player){
         System.out.println("Your current chip balance is " + player.getChips() + " chips.");
         System.out.print("How many chips would you like to purchase? ");
 
-        String line = scanLine();
+        String line = "50";
         int returnval = 0;
         try {
             returnval = Integer.parseInt(line);
         }
         catch (NumberFormatException ex){
             System.out.println("Enter a new number: ");
-            line = scanLine();
         }
 
-        return returnval;
+        return 50;
     }
 
     @Override
-    public int getInitialBet() throws IOException {
+    public int getInitialBet() {
         System.out.print("How much would you like to bet(this table allows bets from 10-500 chips)? ");
-        String line = scanLine();
+        String line = "25";
         return Integer.parseInt(line);
     }
 
@@ -76,13 +74,15 @@ public class CLIView extends AbstractView {
     }
 
     public String scanLine() throws IOException {
-        String line = scanner.nextLine();
+        String line = "quit";
 
         if (line.toLowerCase().contains("quit")) {
             throw new IOException("Quit command given!");
         }
+
         return line;
     }
+
 
     @Override
     public int incrementBet(int bet) {
@@ -98,6 +98,6 @@ public class CLIView extends AbstractView {
     public void quitGame() {
         System.out.println("Quit received, quitting the game!");
     }
-    }
+}
 
 

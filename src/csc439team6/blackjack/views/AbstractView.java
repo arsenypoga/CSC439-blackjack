@@ -34,7 +34,7 @@ public abstract class AbstractView {
     /**
      *
      */
-    public abstract int incrementBet() throws IOError;
+    public abstract int incrementBet(int bet) throws IOError;
     public abstract void displayHand(AbstractPlayer player) throws IOError;
     public abstract void showGameStatus() throws IOError; // Same as the above, needs further code
     public abstract void quitGame();

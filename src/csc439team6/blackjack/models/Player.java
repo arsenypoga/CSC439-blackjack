@@ -34,7 +34,7 @@ public class Player extends AbstractPlayer {
     }
 
     public void incrementBet(int bet) {
-        int totalBet = this.bet + bet;
+        int totalBet = bet;
         if (totalBet > chips)
             throw new IndexOutOfBoundsException("bet exceeds available chips");
         else if (totalBet < MINIMUM_BET)

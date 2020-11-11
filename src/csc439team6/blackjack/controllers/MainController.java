@@ -12,9 +12,11 @@ import java.util.ArrayList;
  */
 public class MainController {
     AbstractView view;
-    Player player;
+    public Player player;
     Dealer dealer;
     Shoe shoe;
+    public int chips;
+    public int bet;
 
     public MainController(AbstractView view) {
         this.view = view;
@@ -45,7 +47,7 @@ public class MainController {
 
     public void purchaseChips() {
         try {
-            int chips = view.purchaseChips(player);
+            chips = view.purchaseChips(player);
             player.addChips(chips);
         } catch (IOException e) {
             view.quitGame();
@@ -56,8 +58,8 @@ public class MainController {
     // TODO: validate that the bet is in range!
     public void makeInitialBet() {
         try {
-            int bet = view.getInitialBet();
-            player.incrementBet(bet);
+            bet = view.getInitialBet();
+            //player.incrementBet(bet);
             player.reduceChips(bet);
         } catch (IOException e) {
             view.quitGame();
@@ -75,10 +77,8 @@ public class MainController {
         player.addCard(card);
     }
 
-    public void incrementBet() {
-        int bet = view.incrementBet();
+    public void incrementBet(int newBet) {
+        bet = view.incrementBet(newBet);
         player.incrementBet(bet);
     }
-
-
 }
