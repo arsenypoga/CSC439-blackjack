@@ -11,12 +11,11 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class MainController {
-    AbstractView view;
-    public Player player;
-    Dealer dealer;
-    Shoe shoe;
-    public int chips;
-    public int bet;
+
+    private AbstractView view;
+    private Player player;
+    private Dealer dealer;
+    private Shoe shoe;
 
     public MainController(AbstractView view) {
         this.view = view;
@@ -25,8 +24,11 @@ public class MainController {
         this.player = new Player(0);
     }
 
+    /**
+     * Starts game sequence
+     */
     public void playBlackjack() {
-        gameStartedMessage();
+        view.gameStartedMessage();
         purchaseChips();
         makeInitialBet();
 
@@ -41,13 +43,13 @@ public class MainController {
 
     }
 
-    public void gameStartedMessage() {
-        view.gameStartedMessage();
-    }
-
+    /**
+     * Prompt user to purchase chips.
+     *
+     */
     public void purchaseChips() {
         try {
-            chips = view.purchaseChips(player);
+            int chips = view.purchaseChips();
             player.addChips(chips);
         } catch (IOException e) {
             view.quitGame();
@@ -55,30 +57,114 @@ public class MainController {
         }
     }
 
-    // TODO: validate that the bet is in range!
+    /**
+     * Prompts user for starting bet,
+     * if input is incorrect the request is repeated.
+     */
     public void makeInitialBet() {
         try {
-            bet = view.getInitialBet();
-            //player.incrementBet(bet);
+            int bet = view.getInitialBet();
             player.reduceChips(bet);
+            player.setBet(bet);
         } catch (IOException e) {
             view.quitGame();
             System.exit(0);
         }
     }
 
-
+    /**
+     * Displays hand of a player
+     * @param player player
+     */
     public void displayHand(AbstractPlayer player) {
         view.displayHand(player);
     }
 
+    /**
+     * deals card to a player.
+     * Player can either be a Dealer or a Player
+     * @param player player
+     */
     public void dealCard(AbstractPlayer player) {
         Card card = shoe.pickCard();
         player.addCard(card);
     }
 
-    public void incrementBet(int newBet) {
-        bet = view.incrementBet(newBet);
-        player.incrementBet(bet);
+    /**
+     * Increments bet
+     */
+    public void incrementBet() {
+        try {
+            int bet = +view.incrementBet();
+            player.reduceChips(bet);
+
+        } catch (IOException e) {
+            view.quitGame();
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Gets view
+     * @return view
+     */
+    public AbstractView getView() {
+        return view;
+    }
+
+    /**
+     * Sets view
+     * @param view
+     */
+    public void setView(AbstractView view) {
+        this.view = view;
+    }
+
+    /**
+     * Gets player
+     * @return player
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * Sets player
+     * @param player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    /**
+     * Gets dealer
+     * @return
+     */
+    public Dealer getDealer() {
+        return dealer;
+    }
+
+    /**
+     * Sets dealer
+     * @param dealer
+     */
+    public void setDealer(Dealer dealer) {
+        this.dealer = dealer;
+    }
+
+    /**
+     * gets shoe
+     * @return
+     */
+    public Shoe getShoe() {
+        return shoe;
+    }
+
+    /**
+     * Sets shoe
+     * @param shoe
+     */
+    public void setShoe(Shoe shoe) {
+        this.shoe = shoe;
     }
 }

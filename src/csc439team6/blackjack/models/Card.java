@@ -28,10 +28,18 @@ public class Card {
         this.isVisible = false;
     }
 
+    /**
+     * returns current visibility status
+     * @return
+     */
     public boolean isVisible() {
         return isVisible;
     }
 
+    /**
+     * Sets visibility
+     * @param visible
+     */
     public void setVisible(boolean visible) {
         isVisible = visible;
     }
@@ -131,6 +139,10 @@ public class Card {
         QUEEN,
         KING;
 
+        /**
+         * Returns short string version of a card number
+         * @return
+         */
         public String shortString() {
             String returnString = "";
             switch (this) {

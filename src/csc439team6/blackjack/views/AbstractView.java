@@ -23,7 +23,7 @@ public abstract class AbstractView {
      * Purchase initial chips, prompt user
      * @return number of chips purchased.
      */
-    public abstract int purchaseChips(Player player) throws IOException;
+    public abstract int purchaseChips() throws IOException;
 
     /**
      * Get initial bet from User.
@@ -32,10 +32,19 @@ public abstract class AbstractView {
     public abstract int getInitialBet() throws IOException;
 
     /**
-     *
+     * Prompts user for an increment number
      */
-    public abstract int incrementBet(int bet) throws IOError;
-    public abstract void displayHand(AbstractPlayer player) throws IOError;
-    public abstract void showGameStatus() throws IOError; // Same as the above, needs further code
+    public abstract int incrementBet() throws IOException;
+
+    /**
+     * Displays current hand
+     * @param player
+     * @throws IOError
+     */
+    public abstract void displayHand(AbstractPlayer player);
+
+    /**
+     * shows quit game message.
+     */
     public abstract void quitGame();
 }
