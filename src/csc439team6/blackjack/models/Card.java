@@ -58,6 +58,8 @@ public class Card {
      *
      * @return Number number
      */
+
+
     public Number getNumber() {
         logger.entering(getClass().getName(), "getNumber");
         logger.exiting(getClass().getName(), "getNumber");

@@ -3,6 +3,8 @@ package csc439team6.blackjack.models;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Deck class which will simulate a deck of 2 unique playing cards. When the constructor is called it will call the
@@ -14,14 +16,17 @@ import java.util.Random;
 public class Deck {
     private ArrayList<Card> cards = new ArrayList<>();
     private final Random RANDOM = new Random();
+    private final Logger logger = Logger.getLogger(Deck.class.getName());
 
     public Deck() {
+        logger.entering(getClass().getName(), "Deck");
         for(Card.Suit suit : Card.Suit.values()) {
             for(Card.Number number: Card.Number.values()) {
                 Card card = new Card(number, suit);
                 cards.add(card);
             }
         }
+        logger.exiting(getClass().getName(), "Deck");
     }
 
 
@@ -32,14 +37,17 @@ public class Deck {
      *
      */
     public Card pickCard() {
+        logger.entering(getClass().getName(), "pickCard");
+
         if(cards.isEmpty()) {
+            logger.log(Level.WARNING, "Deck is empty");
             throw new NoSuchElementException();
 
         } else {
             int cardLocation = RANDOM.nextInt(cards.size());
             Card cardPicked = cards.get(cardLocation);
             cards.remove(cardPicked);
-
+            logger.exiting(getClass().getName(), "pickCard");
             return cardPicked;
         }
     }
@@ -49,6 +57,8 @@ public class Deck {
      * @return int
      */
     public int size() {
+        logger.entering(getClass().getName(), "size");
+        logger.exiting(getClass().getName(), "size");
         return cards.size();
     }
 
@@ -57,6 +67,8 @@ public class Deck {
      * @return boolean isEmpty
      */
     public boolean isEmpty() {
+        logger.entering(getClass().getName(), "isEmpty");
+        logger.exiting(getClass().getName(), "isEmpty");
         return this.cards.isEmpty();
     }
 }
