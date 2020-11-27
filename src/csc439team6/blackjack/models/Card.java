@@ -1,6 +1,7 @@
 package csc439team6.blackjack.models;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * Class used to create a Card object which will be used in the blackjack game.
@@ -15,6 +16,7 @@ public class Card {
     private final Number number;
     private final Suit suit;
     private boolean isVisible;
+    private static final Logger logger = Logger.getLogger(Card.class.getName());
 
     /**
      * Creates a Card object and sets the number and suit variables.
@@ -23,9 +25,11 @@ public class Card {
      * @param suit   Suit
      */
     public Card(Number number, Suit suit) {
+        logger.entering(getClass().getName(), "Card");
         this.number = number;
         this.suit = suit;
         this.isVisible = false;
+        logger.exiting(getClass().getName(), "Card");
     }
 
     /**
@@ -33,6 +37,8 @@ public class Card {
      * @return
      */
     public boolean isVisible() {
+        logger.entering(getClass().getName(), "isVisible");
+        logger.exiting(getClass().getName(), "isVisible");
         return isVisible;
     }
 
@@ -41,8 +47,11 @@ public class Card {
      * @param visible
      */
     public void setVisible(boolean visible) {
+        logger.entering(getClass().getName(), "setVisible");
         isVisible = visible;
+        logger.exiting(getClass().getName(), "setVisible");
     }
+
 
     /**
      * Retrieves card number
@@ -50,6 +59,8 @@ public class Card {
      * @return Number number
      */
     public Number getNumber() {
+        logger.entering(getClass().getName(), "getNumber");
+        logger.exiting(getClass().getName(), "getNumber");
         return number;
     }
 
@@ -59,6 +70,8 @@ public class Card {
      * @return Suit suite
      */
     public Suit getSuit() {
+        logger.entering(getClass().getName(), "getSuit");
+        logger.exiting(getClass().getName(), "getSuit");
         return suit;
     }
 
@@ -70,6 +83,8 @@ public class Card {
      */
     @Override
     public boolean equals(Object o) {
+        logger.entering(getClass().getName(), "equals");
+        logger.exiting(getClass().getName(), "equals");
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
@@ -84,6 +99,8 @@ public class Card {
      */
     @Override
     public int hashCode() {
+        logger.entering(getClass().getName(), "hashCode");
+        logger.exiting(getClass().getName(), "hashCode");
         return Objects.hash(number, suit);
     }
 
@@ -94,6 +111,8 @@ public class Card {
      */
     @Override
     public String toString() {
+        logger.entering(getClass().getName(), "toString");
+        logger.exiting(getClass().getName(), "toString");
         return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
     }
 
@@ -144,6 +163,7 @@ public class Card {
          * @return
          */
         public String shortString() {
+        logger.entering(getClass().getName(), "shortString");
             String returnString = "";
             switch (this) {
                 case ACE:
@@ -186,6 +206,7 @@ public class Card {
                     returnString = "K";
                     break;
             }
+            logger.exiting(getClass().getName(), "shortString");
             return returnString;
         }
     }

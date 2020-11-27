@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractPlayer {
     private final Hand hand;
-    private final Logger logger = Logger.getLogger(MainController.class.getName());
+    private final Logger logger = Logger.getLogger(AbstractPlayer.class.getName());
 
     /**
      * Protected constructor to prevent instantiation of a base player class.
@@ -44,7 +44,6 @@ public abstract class AbstractPlayer {
      */
     public void resetHand() {
         logger.entering(getClass().getName(), "resetHand");
-
         this.hand.clear();
         logger.exiting(getClass().getName(), "resetHand");
     }
