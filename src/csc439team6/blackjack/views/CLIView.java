@@ -7,6 +7,8 @@ import csc439team6.blackjack.models.Player;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * CLI class which will be used to display messages to the user
@@ -16,15 +18,20 @@ import java.util.Scanner;
 public class CLIView extends AbstractView {
 
     Scanner scanner = new Scanner(System.in);
+    private final Logger logger = Logger.getLogger(CLIView.class.getName());
 
     /**
      * Show game started message.
      */
     @Override
     public void gameStartedMessage() {
+        logger.entering(getClass().getName(), "gameStartedMessage");
+
         System.out.println("Your game of blackjack has now started.");
         System.out.println("At any time you can type 'quit' to exit the game.");
         System.out.println("In order to begin the game you must first purchase chips which will be used for betting.");
+
+        logger.exiting(getClass().getName(), "gameStartedMessage");
     }
 
     /**
@@ -35,9 +42,13 @@ public class CLIView extends AbstractView {
      */
     @Override
     public int purchaseChips() throws IOException {
+        logger.entering(getClass().getName(), "purchaseChips");
+
         System.out.print("How many chips would you like to purchase?: ");
 
         String line = scanLine();
+
+        logger.exiting(getClass().getName(), "purchaseChips");
         return validateIntString(line);
     }
 
@@ -49,8 +60,12 @@ public class CLIView extends AbstractView {
      */
     @Override
     public int getInitialBet() throws IOException {
+        logger.entering(getClass().getName(), "getInitialBet");
+
         System.out.print("How much would you like to bet(this table allows bets from 10-500 chips)? ");
         String line = scanLine();
+
+        logger.exiting(getClass().getName(), "getInitialBet");
         return validateIntString(line);
     }
 
@@ -63,7 +78,11 @@ public class CLIView extends AbstractView {
      */
     @Override
     public void displayHand(AbstractPlayer player) {
+        logger.entering(getClass().getName(), "displayHand");
+
         if (player instanceof Player) {
+            logger.info("Displaying Player's hand");
+
             System.out.print("Your hand : ");
             System.out.print("[ ");
             for (Card card : player.getHand().getCards()) {
@@ -72,10 +91,12 @@ public class CLIView extends AbstractView {
             System.out.println("]");
         }
         if (player instanceof Dealer) {
+            logger.info("Displaying Dealer's hand");
             System.out.print("Dealer has: ");
             System.out.print("[ ");
 
             for (Card card : player.getHand().getCards()) {
+
                 if (card.isVisible()) {
                     System.out.printf("%s ", card.displayString());
                 } else {
@@ -84,6 +105,8 @@ public class CLIView extends AbstractView {
             }
             System.out.println("]");
         }
+
+        logger.exiting(getClass().getName(), "displayHand");
     }
 
     /**
@@ -93,11 +116,15 @@ public class CLIView extends AbstractView {
      * @throws IOException Quit is received
      */
     public String scanLine() throws IOException {
+        logger.entering(getClass().getName(), "scanLine");
+
         String line = scanner.nextLine();
 
         if (line.toLowerCase().contains("quit")) {
             throw new IOException("Quit command given!");
         }
+
+        logger.exiting(getClass().getName(), "scanLine");
         return line;
     }
 
@@ -109,12 +136,17 @@ public class CLIView extends AbstractView {
      * @throws IOException
      */
     public int validateIntString(String str) throws IOException {
+        logger.entering(getClass().getName(), "validateIntString");
         int returnInt;
         while (true) {
             try {
                 returnInt = Integer.parseInt(str);
+
+                logger.exiting(getClass().getName(), "validateIntString");
                 return returnInt;
             } catch (NumberFormatException ex) {
+                logger.log(Level.WARNING, "Couldn't parse int: {0}", str);
+
                 System.out.println("Incorrect input! Enter a new number: ");
                 str = scanLine();
             }
@@ -122,11 +154,20 @@ public class CLIView extends AbstractView {
     }
 
     public void displayCurrentBet(int bet) {
-    System.out.println("Current Bet: "+bet);
+        logger.entering(getClass().getName(), "displayCurrentBet");
+
+        System.out.println("Current Bet: " + bet);
+
+        logger.exiting(getClass().getName(), "displayCurrentBet");
+
     }
 
     public void displayCurrentBalance(Player player) {
+        logger.entering(getClass().getName(), "displayCurrentBalance");
+
         System.out.println("Your current chip balance is " + player.getChips() + " chips.");
+
+        logger.entering(getClass().getName(), "displayCurrentBalance");
     }
 
 
@@ -136,6 +177,7 @@ public class CLIView extends AbstractView {
      */
     @Override
     public int incrementBet() throws IOException {
+        logger.entering(getClass().getName(), "incrementBet");
 
         System.out.println("Would you want to increment bet? [Y/n]: ");
 
@@ -149,14 +191,18 @@ public class CLIView extends AbstractView {
                 System.out.println("Increment number: ");
                 incrementNumber = validateIntString(scanLine());
                 while (!isNumberValid) {
-
                     if (incrementNumber > Player.MAXIMUM_BET) {
+                        logger.log(Level.WARNING, "Entered number exceeding Player.MAXIMUM_BET: " + Player.MAXIMUM_BET +"; Got: {1}", incrementNumber);
+
                         System.out.println("Player bet exceeds maximum allowed bet: " + Player.MAXIMUM_BET);
                         System.out.println("Increment number: ");
                         line = scanLine();
                     } else if (incrementNumber < Player.MINIMUM_BET) {
+                        logger.log(Level.WARNING, "Entered number below Player.MINIMUM_BET: " + Player.MINIMUM_BET +"; Got: {1}", incrementNumber);
+
                         System.out.println("Player bet is below minimum allowed bet: " + Player.MINIMUM_BET);
                         System.out.println("Increment number: ");
+
                         line = scanLine();
                     }
                     isNumberValid = true;
@@ -165,11 +211,13 @@ public class CLIView extends AbstractView {
             } else if (line.equals("n") || line.equals("N")) {
                 isFlagValid = true;
             } else {
+                logger.log(Level.WARNING, "Entered mesasge is not understood: {0}", line);
                 System.out.println("Input is not understood, try again!");
                 System.out.println("Would you want to increment bet? [Y/n]: ");
                 line = scanLine();
             }
         }
+        logger.exiting(getClass().getName(), "incrementBet");
         return incrementNumber;
     }
 
@@ -178,7 +226,11 @@ public class CLIView extends AbstractView {
      */
     @Override
     public void quitGame() {
+        logger.entering(getClass().getName(), "quitGame");
+
         System.out.println("Quit received, quitting the game!");
+
+        logger.exiting(getClass().getName(), "quitGame");
     }
 }
 
