@@ -47,6 +47,7 @@ public class Deck {
             int cardLocation = RANDOM.nextInt(cards.size());
             Card cardPicked = cards.get(cardLocation);
             cards.remove(cardPicked);
+
             logger.exiting(getClass().getName(), "pickCard");
             return cardPicked;
         }
