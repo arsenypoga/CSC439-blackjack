@@ -1,5 +1,7 @@
 package csc439team6.blackjack.models;
 
+import java.util.logging.Logger;
+
 /**
  * @author Arseny Poga
  * @version 1.0
@@ -9,11 +11,15 @@ public class Player extends AbstractPlayer {
     public static final int MAXIMUM_BET = 500;
     private int chips;
     private int bet;
+    private final Logger logger = Logger.getLogger(Player.class.getName());
 
     public Player(int chips) {
         super();
+        logger.entering(getClass().getName(), "Player");
         this.chips = chips;
         this.bet = 0;
+        logger.exiting(getClass().getName(), "Player");
+
     }
 
     /**
@@ -21,6 +27,9 @@ public class Player extends AbstractPlayer {
      * @return
      */
     public int getChips() {
+        logger.entering(getClass().getName(), "getChips");
+        logger.exiting(getClass().getName(), "getChips");
+
         return chips;
     }
 
@@ -29,7 +38,9 @@ public class Player extends AbstractPlayer {
      * @param chips
      */
     public void addChips(int chips) {
+        logger.entering(getClass().getName(), "addChips");
         this.chips += chips;
+        logger.exiting(getClass().getName(), "addChips");
     }
 
     /**
@@ -37,7 +48,9 @@ public class Player extends AbstractPlayer {
      * @param chips
      */
     public void reduceChips(int chips) {
+        logger.entering(getClass().getName(), "reduceChips");
         this.chips -= chips;
+        logger.exiting(getClass().getName(), "reduceChips");
     }
 
     /**
@@ -45,6 +58,8 @@ public class Player extends AbstractPlayer {
      * @return
      */
     public int getBet() {
+        logger.entering(getClass().getName(), "getBet");
+        logger.exiting(getClass().getName(), "getBet");
         return bet;
     }
 
@@ -53,14 +68,18 @@ public class Player extends AbstractPlayer {
      * @param bet
      */
     public void incrementBet(int bet) {
-            this.bet += bet;
+        logger.entering(getClass().getName(), "incrementBet");
+        this.bet += bet;
+        logger.exiting(getClass().getName(), "incrementBet");
     }
 
     /**
      * Resets bet to 0
      */
     public void resetBet() {
+        logger.entering(getClass().getName(), "resetBet");
         this.bet = 0;
+        logger.exiting(getClass().getName(), "resetBet");
     }
 
     /**
@@ -68,7 +87,9 @@ public class Player extends AbstractPlayer {
      * @param chips
      */
     public void setChips(int chips) {
+        logger.entering(getClass().getName(), "setChips");
         this.chips = chips;
+        logger.exiting(getClass().getName(), "setChips");
     }
 
     /**
@@ -76,7 +97,9 @@ public class Player extends AbstractPlayer {
      * @param bet
      */
     public void setBet(int bet) {
+        logger.entering(getClass().getName(), "setBet");
         this.bet = bet;
+        logger.exiting(getClass().getName(), "setBet");
     }
 }
 
