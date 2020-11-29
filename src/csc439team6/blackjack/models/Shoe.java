@@ -75,4 +75,10 @@ public class Shoe {
         logger.exiting(getClass().getName(), "cardCount");
         return count;
     }
+
+    public void repopulateShoe(int numOfDecks) {
+        for (int i = 0; i < numOfDecks; i++) {
+            decks.add(new Deck());
+        }
+    }
 }

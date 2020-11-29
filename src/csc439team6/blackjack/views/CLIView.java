@@ -110,6 +110,78 @@ public class CLIView extends AbstractView {
     }
 
     /**
+     * method to get the next action that the player would like to perform. String will be converted to upper case
+     * to make data validation easier.
+     * @param currentHandValue
+     * @return String
+     * @throws IOException
+     */
+    @Override
+    public String getAction(AbstractPlayer player, int currentHandValue) throws IOException {
+        System.out.println("Your current hand value is: " + currentHandValue);
+        if (currentHandValue >= 9 && currentHandValue <= 11 && player.getHand().size() == 2) {
+            System.out.println("Would you like to hit, double, or stand? ");
+            return scanLine().toUpperCase();
+        } else {
+            System.out.println("Would you like to hit or stand? ");
+            return scanLine().toUpperCase();
+        }
+    }
+
+    @Override
+    public void bustMessage(int currentHandValue) {
+        System.out.println("You have bust with a hand value of: " + currentHandValue);
+    }
+
+    @Override
+    public void standMessage(int currentHandValue) {
+        System.out.println("You are now standing with a hand value of: " + currentHandValue);
+    }
+
+    @Override
+    public void dealersTurn() {
+        System.out.println("The dealer will now begin to play");
+    }
+
+    @Override
+    public void dealersHandValue(int dealersHandValue) {
+        if (dealersHandValue == 21) {
+            System.out.println("The dealer has a hand value of " + dealersHandValue);
+        } else if (dealersHandValue > 21) {
+            System.out.println("The dealer has a hand value of " + dealersHandValue + " - The dealer has bust");
+        } else if (dealersHandValue >= 17) {
+            System.out.println("The dealer has a hand value of " + dealersHandValue + " - Dealer will now stand");
+        } else {
+            System.out.println("The dealer has a hand value of " + dealersHandValue + " - The dealer will now hit");
+        }
+    }
+
+    @Override
+    public void dealerWins() {
+        System.out.println("The dealer has won the game");
+    }
+
+    @Override
+    public void playerWins() {
+        System.out.println("You won the game!");
+    }
+
+    @Override
+    public void gameDraw() {
+        System.out.println("The game resulted in a draw!");
+    }
+
+    @Override
+    public boolean playAgain() throws IOException {
+        System.out.println("Would you like to play again? {Y/N)");
+        if (scanLine().toUpperCase().equals("Y")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Helper method to scan for "quit message" and raise an IO exception if it's encountered
      *
      * @return String line
@@ -228,7 +300,7 @@ public class CLIView extends AbstractView {
     public void quitGame() {
         logger.entering(getClass().getName(), "quitGame");
 
-        System.out.println("Quit received, quitting the game!");
+        System.out.println("Quit received, quitting the game. Thank you for playing!");
 
         logger.exiting(getClass().getName(), "quitGame");
     }

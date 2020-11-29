@@ -47,4 +47,22 @@ public abstract class AbstractView {
      * shows quit game message.
      */
     public abstract void quitGame();
+
+    public abstract String getAction(AbstractPlayer player, int currentHandValue) throws IOException;
+
+    public abstract void bustMessage(int currentHandValue);
+
+    public abstract void standMessage(int currentHandValue);
+
+    public abstract void dealerWins();
+
+    public abstract void playerWins();
+
+    public abstract void dealersTurn();
+
+    public abstract void gameDraw();
+
+    public abstract void dealersHandValue(int dealersHandValue);
+
+    public abstract boolean playAgain() throws IOException;
 }

@@ -41,16 +41,164 @@ public class MainController {
         purchaseChips();
         makeInitialBet();
 
-        this.player.addCard(shoe.pickCard());
-        this.player.addCard(shoe.pickCard());
+        checkShoeSize();
+        populateInitialHands(this.player, this.dealer);
+        displayHand(this.player);
+        displayHand(this.dealer);
 
-        this.dealer.addCard(shoe.pickCard());
-        this.dealer.addCard(shoe.pickCard());
+        String nextPlayerAction = getNextAction(this.player, getHandValue(this.player)); //method to get the action of the player
+        initiatePlayerAction(nextPlayerAction);
 
-        displayHand(player);
-        displayHand(dealer);
+        determineWinner();
+        player.getHand().clear();
+        dealer.getHand().clear();
+
+        try {
+            if (view.playAgain()) {
+                playBlackjack();
+            } else {
+                view.quitGame();
+            }
+        } catch (IOException e) {
+            view.quitGame();
+        }
 
         logger.exiting(getClass().getName(), "playBlackjack");
+    }
+
+    /**
+     * method to refill the shoe if the number of cards remaining is less than 30
+     * This number is based off of an initial shoe size of 3 decks.
+     */
+    private void checkShoeSize() {
+        if (shoe.cardCount() < 30) {
+            shoe.repopulateShoe(3);
+        }
+    }
+
+    /**
+     * Method to determine the winner of the game once the playBlackjack() flow has completed.
+     */
+    private void determineWinner() {
+        if (getHandValue(player) > 21 || getHandValue(dealer) > getHandValue(player)) {
+            view.dealerWins();
+        } else if (getHandValue(dealer) > 21 || getHandValue(player) > getHandValue(dealer)) {
+            view.playerWins();
+        } else {
+            view.gameDraw();
+        }
+    }
+
+    /**
+     * Method to determine the action of the player and next steps in the flow to take depending on their input
+     * @param nextPlayerAction
+     */
+    private void initiatePlayerAction(String nextPlayerAction) {
+        if (nextPlayerAction.equals("DOUBLE")) { // validation for if double was selected
+            player.setBet(player.getBet() * 2); // double bet
+            player.addCard(shoe.pickCard()); // add new card to hand
+            if (getHandValue(player) > 21 ) {
+                view.bustMessage(getHandValue(player));
+            } else {
+                view.standMessage(getHandValue(player));
+                view.dealersTurn();
+                initiateDealerAction();
+            }
+        } else if (nextPlayerAction.equals("HIT")) { //logic for the option of HIT being selected
+            player.addCard(shoe.pickCard());
+            int newHandValue = getHandValue(player);
+            if (newHandValue == 21) {
+                view.standMessage(getHandValue(player));
+                view.dealersTurn();
+                initiateDealerAction();
+            } else if (newHandValue < 21) {
+                initiatePlayerAction(getNextAction(player, newHandValue));
+            } else {
+                view.bustMessage(newHandValue);
+            }
+        } else if (nextPlayerAction.equals("STAND")) {
+            view.standMessage(getHandValue(player));
+            view.dealersTurn();
+            initiateDealerAction();
+        } else {
+            view.quitGame();
+            System.exit(0);
+        }
+    }
+
+    /**
+     * Automated dealer action method, this method will simulate the dealer drawing a card until the hand value is
+     * greater than or equal to 17
+     */
+    private void initiateDealerAction() {
+        view.dealersHandValue(getHandValue(dealer));
+        if (getHandValue(dealer) < 17) {
+            dealer.addCard(shoe.pickCard());
+            initiateDealerAction();
+        }
+    }
+
+    /**
+     * method to get the action that the player would like to take
+     * @param player
+     * @param currentHandValue
+     * @return
+     */
+    private String getNextAction(AbstractPlayer player, int currentHandValue) {
+        try {
+            return view.getAction(player, currentHandValue);
+        } catch (IOException e) {
+            view.quitGame();
+            System.exit(0);
+            return null;
+        }
+    }
+
+    /**
+     * method for getting the hand value of the player/dealer based on the enum Number class
+     * @param player
+     * @return
+     */
+    private int getHandValue(AbstractPlayer player) {
+        int currentHandValue = 0;
+        ArrayList<Card> playerCards = player.getHand().getCards();
+
+        for (Card cards : playerCards) {
+            if (cards.getNumber() == Card.Number.ACE) {
+                if (currentHandValue < 11) {
+                    currentHandValue += 11;
+                } else {
+                    currentHandValue += 1;
+                }
+            } else if (cards.getNumber() == Card.Number.JACK
+                        || cards.getNumber() == Card.Number.QUEEN
+                        || cards.getNumber() == Card.Number.KING) {
+                currentHandValue += 10;
+            } else {
+                Card.Number value = cards.getNumber();
+                currentHandValue += cards.getNumber().valueOf(value.toString()).ordinal() + 1;
+            }
+        }
+        return currentHandValue;
+    }
+
+    /**
+     * method for the initial draws of cards, both player cards will be visible while only one dealer card will be
+     * @param player
+     * @param dealer
+     */
+    public void populateInitialHands(AbstractPlayer player, AbstractPlayer dealer) {
+        for(int i = 0; i < 2; i++) { //player cards with isVisible boolean set to true
+            Card card = shoe.pickCard();
+            card.setVisible(true);
+            player.addCard(card);
+        }
+
+        Card dealerCardOne = shoe.pickCard();
+        dealerCardOne.setVisible(true);
+        Card dealerCardTwo = shoe.pickCard();
+        dealer.addCard(dealerCardOne);
+        dealer.addCard(dealerCardTwo);
     }
 
     /**
