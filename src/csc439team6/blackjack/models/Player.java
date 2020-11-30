@@ -1,59 +1,107 @@
 package csc439team6.blackjack.models;
 
+import java.util.logging.Logger;
+
 /**
  * @author Arseny Poga
  * @version 1.0
  */
-public class Player {
-    private final Hand hand;
+public class Player extends AbstractPlayer {
+    public static final int MINIMUM_BET = 10;
+    public static final int MAXIMUM_BET = 500;
     private int chips;
     private int bet;
-
-    private static final int MINIMUM_BET = 10;
-    private static final int MAXIMUM_BET = 500;
+    private final Logger logger = Logger.getLogger(Player.class.getName());
 
     public Player(int chips) {
+        super();
+        logger.entering(getClass().getName(), "Player");
         this.chips = chips;
-        this.hand = new Hand();
+        this.bet = 0;
+        logger.exiting(getClass().getName(), "Player");
+
     }
 
-    public Hand getHand() {
-        return hand;
-    }
-
-    public void addCard(Card card) {
-        this.hand.addCard(card);
-    }
-
-    public void resetHand() {
-        this.hand.clear();
-    }
-
+    /**
+     * Gets chips
+     * @return
+     */
     public int getChips() {
+        logger.entering(getClass().getName(), "getChips");
+        logger.exiting(getClass().getName(), "getChips");
+
         return chips;
     }
 
+    /**
+     * Adds chips to current chip balance
+     * @param chips
+     */
     public void addChips(int chips) {
+        logger.entering(getClass().getName(), "addChips");
         this.chips += chips;
+        logger.exiting(getClass().getName(), "addChips");
     }
 
+    /**
+     * Reduces current chip balance
+     * @param chips
+     */
+    public void reduceChips(int chips) {
+        logger.entering(getClass().getName(), "reduceChips");
+        this.chips -= chips;
+        logger.exiting(getClass().getName(), "reduceChips");
+    }
+
+    /**
+     * Gets bet
+     * @return
+     */
     public int getBet() {
+        logger.entering(getClass().getName(), "getBet");
+        logger.exiting(getClass().getName(), "getBet");
         return bet;
     }
 
-    public void resetBet() {
-        this.bet = 0;
+    /**
+     * Increments current bet
+     * @param bet
+     */
+    public void incrementBet(int bet) {
+        logger.entering(getClass().getName(), "incrementBet");
+        this.bet += bet;
+        logger.exiting(getClass().getName(), "incrementBet");
     }
 
-    public void setBet(int bet) {
-        if (bet > chips)
-            throw new IndexOutOfBoundsException("bet exceeds available chips");
-        else if (bet < MINIMUM_BET)
-            throw new IndexOutOfBoundsException("bet less than allowed");
-        else if (bet > MAXIMUM_BET)
-            throw new IndexOutOfBoundsException("bet more than allowed");
+    /**
+     * Resets bet to 0
+     */
+    public void resetBet() {
+        logger.entering(getClass().getName(), "resetBet");
+        this.bet = 0;
+        logger.exiting(getClass().getName(), "resetBet");
+    }
 
-        this.chips -= bet;
+    /**
+     * Sets chips
+     * @param chips
+     */
+    public void setChips(int chips) {
+        logger.entering(getClass().getName(), "setChips");
+        this.chips = chips;
+        logger.exiting(getClass().getName(), "setChips");
+    }
+
+    /**
+     * Sets bet
+     * @param bet
+     */
+    public void setBet(int bet) {
+        logger.entering(getClass().getName(), "setBet");
         this.bet = bet;
+        logger.exiting(getClass().getName(), "setBet");
     }
 }
+
+
+

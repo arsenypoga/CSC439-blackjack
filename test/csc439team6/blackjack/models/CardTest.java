@@ -1,4 +1,4 @@
-package csc439team6.blackjack;
+package csc439team6.blackjack.models;
 
 import csc439team6.blackjack.models.Card;
 import org.junit.Test;
@@ -60,4 +60,20 @@ public class CardTest {
         Card card2 = new Card(Card.Number.NINE, Card.Suit.SPADES);
         assertNotEquals(card1.hashCode(), card2.hashCode());
     }
+
+
+    @Test
+    public void isVisible() {
+        Card card1 = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        assertFalse(card1.isVisible());
+        card1.setVisible(true);
+        assertTrue(card1.isVisible());
+    }
+    @Test
+    public void setVisible() {
+        Card card1 = new Card(Card.Number.TEN, Card.Suit.SPADES);
+        card1.setVisible(true);
+        assertTrue(card1.isVisible());
+    }
+
 }

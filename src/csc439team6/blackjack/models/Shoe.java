@@ -3,6 +3,8 @@ package csc439team6.blackjack.models;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Shoe class simulates a shoe of multiple decks in blackjack
@@ -13,11 +15,14 @@ import java.util.Random;
 public class Shoe {
     private final Random RANDOM = new Random();
     private ArrayList<Deck> decks = new ArrayList<>();
+    private final Logger logger = Logger.getLogger(Shoe.class.getName());
 
     public Shoe(int deckNumber) {
+        logger.entering(getClass().getName(), "Shoe");
         for (int i = 0; i < deckNumber; i++) {
             decks.add(new Deck());
         }
+        logger.exiting(getClass().getName(), "Shoe");
     }
 
     /**
@@ -26,7 +31,9 @@ public class Shoe {
      * @return Card a random card
      */
     public Card pickCard() {
+        logger.entering(getClass().getName(), "pickCard");
         if (decks.isEmpty()) {
+            logger.warning("Shoe is empty");
             throw new NoSuchElementException();
         }
 
@@ -35,8 +42,10 @@ public class Shoe {
         Card card = deck.pickCard();
 
         if (deck.isEmpty()) {
+            logger.log(Level.INFO, "Removing deck {0}", deckLocation);
             decks.remove(deckLocation);
         }
+        logger.exiting(getClass().getName(), "pickCard");
         return card;
     }
 
@@ -46,6 +55,8 @@ public class Shoe {
      * @return int deck count
      */
     public int deckCount() {
+        logger.entering(getClass().getName(), "deckCount");
+        logger.exiting(getClass().getName(), "deckCount");
         return decks.size();
     }
 
@@ -55,11 +66,19 @@ public class Shoe {
      * @return int card count
      */
     public int cardCount() {
+        logger.entering(getClass().getName(), "cardCount");
         int count = 0;
 
         for (Deck d : decks) {
             count += d.size();
         }
+        logger.exiting(getClass().getName(), "cardCount");
         return count;
+    }
+
+    public void repopulateShoe(int numOfDecks) {
+        for (int i = 0; i < numOfDecks; i++) {
+            decks.add(new Deck());
+        }
     }
 }

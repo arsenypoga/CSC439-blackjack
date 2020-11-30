@@ -1,6 +1,7 @@
 package csc439team6.blackjack.models;
 
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * Class used to create a Card object which will be used in the blackjack game.
@@ -15,6 +16,8 @@ public class Card {
     private final Number number;
     private final Suit suit;
     private boolean isVisible;
+    private static final Logger logger = Logger.getLogger(Card.class.getName());
+
     /**
      * Creates a Card object and sets the number and suit variables.
      *
@@ -22,25 +25,44 @@ public class Card {
      * @param suit   Suit
      */
     public Card(Number number, Suit suit) {
+        logger.entering(getClass().getName(), "Card");
         this.number = number;
         this.suit = suit;
         this.isVisible = false;
+        logger.exiting(getClass().getName(), "Card");
     }
 
-     public boolean isVisible() {
-     return isVisible;
-     }
+    /**
+     * returns current visibility status
+     * @return
+     */
+    public boolean isVisible() {
+        logger.entering(getClass().getName(), "isVisible");
+        logger.exiting(getClass().getName(), "isVisible");
+        return isVisible;
+    }
 
-     public void setVisible(boolean visible) {
-     isVisible = visible;
-     }
+    /**
+     * Sets visibility
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
+        logger.entering(getClass().getName(), "setVisible");
+        isVisible = visible;
+        logger.exiting(getClass().getName(), "setVisible");
+    }
 
-     /**
+
+    /**
      * Retrieves card number
      *
      * @return Number number
      */
+
+
     public Number getNumber() {
+        logger.entering(getClass().getName(), "getNumber");
+        logger.exiting(getClass().getName(), "getNumber");
         return number;
     }
 
@@ -50,6 +72,8 @@ public class Card {
      * @return Suit suite
      */
     public Suit getSuit() {
+        logger.entering(getClass().getName(), "getSuit");
+        logger.exiting(getClass().getName(), "getSuit");
         return suit;
     }
 
@@ -61,6 +85,8 @@ public class Card {
      */
     @Override
     public boolean equals(Object o) {
+        logger.entering(getClass().getName(), "equals");
+        logger.exiting(getClass().getName(), "equals");
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
@@ -75,6 +101,8 @@ public class Card {
      */
     @Override
     public int hashCode() {
+        logger.entering(getClass().getName(), "hashCode");
+        logger.exiting(getClass().getName(), "hashCode");
         return Objects.hash(number, suit);
     }
 
@@ -85,7 +113,13 @@ public class Card {
      */
     @Override
     public String toString() {
+        logger.entering(getClass().getName(), "toString");
+        logger.exiting(getClass().getName(), "toString");
         return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
+    }
+
+    public String displayString() {
+        return this.suit.toString().toUpperCase().charAt(0) + this.number.shortString();
     }
 
     /**
@@ -124,6 +158,58 @@ public class Card {
         TEN,
         JACK,
         QUEEN,
-        KING
+        KING;
+
+        /**
+         * Returns short string version of a card number
+         * @return
+         */
+        public String shortString() {
+        logger.entering(getClass().getName(), "shortString");
+            String returnString = "";
+            switch (this) {
+                case ACE:
+                    returnString = "A";
+                    break;
+                case TWO:
+                    returnString = "2";
+                    break;
+                case THREE:
+                    returnString = "3";
+                    break;
+                case FOUR:
+                    returnString = "4";
+                    break;
+                case FIVE:
+                    returnString = "5";
+                    break;
+                case SIX:
+                    returnString = "6";
+                    break;
+                case SEVEN:
+                    returnString = "7";
+                    break;
+                case EIGHT:
+                    returnString = "8";
+                    break;
+                case NINE:
+                    returnString = "9";
+                    break;
+                case TEN:
+                    returnString = "10";
+                    break;
+                case JACK:
+                    returnString = "J";
+                    break;
+                case QUEEN:
+                    returnString = "Q";
+                    break;
+                case KING:
+                    returnString = "K";
+                    break;
+            }
+            logger.exiting(getClass().getName(), "shortString");
+            return returnString;
+        }
     }
 }

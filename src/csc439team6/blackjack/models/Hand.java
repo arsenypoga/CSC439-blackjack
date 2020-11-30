@@ -2,6 +2,7 @@ package csc439team6.blackjack.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This is a hand of a blackjack game.
@@ -20,9 +21,12 @@ import java.util.List;
  */
 public class Hand {
     private ArrayList<Card> cards;
+    private final Logger logger = Logger.getLogger(Hand.class.getName());
 
     public Hand() {
+        logger.entering(getClass().getName(), "Hand");
         cards = new ArrayList<>();
+        logger.exiting(getClass().getName(), "Hand");
     }
     
     /**
@@ -31,9 +35,13 @@ public class Hand {
      * @return addedCard
      */
     public void addCard(Card c) {
-        if (c == null)
+        logger.entering(getClass().getName(), "addCard");
+        if (c == null) {
+            logger.warning("Adding null to Hand");
             throw new IllegalArgumentException("Can't add a null card to a hand.");
+        }
         cards.add(c);
+        logger.exiting(getClass().getName(), "addCard");
     }
 
     /**
@@ -42,6 +50,8 @@ public class Hand {
      * @return size
      */
     public int size() {
+        logger.entering(getClass().getName(), "size");
+        logger.exiting(getClass().getName(), "size");
         return cards.size();
     }
 
@@ -50,10 +60,15 @@ public class Hand {
      *
      * @return getCard
      */
-    public List<Card> getCards() {
+    public ArrayList<Card> getCards() {
+        logger.entering(getClass().getName(), "getCards");
+        logger.exiting(getClass().getName(), "getCards");
         return cards;
     }
+
     public void clear() {
+        logger.entering(getClass().getName(), "clear");
+        logger.exiting(getClass().getName(), "clear");
         this.cards.clear();
     }
 
