@@ -39,6 +39,7 @@ public abstract class AbstractPlayer {
         logger.exiting(getClass().getName(), "addCard");
     }
 
+
     /**
      * Resets hand
      */

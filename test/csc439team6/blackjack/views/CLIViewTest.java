@@ -1,5 +1,7 @@
 package csc439team6.blackjack.views;
 
+import csc439team6.blackjack.Main;
+import csc439team6.blackjack.controllers.MainController;
 import csc439team6.blackjack.models.Card;
 import csc439team6.blackjack.models.Player;
 import org.junit.After;
@@ -38,7 +40,7 @@ public class CLIViewTest {
 
     @Test
     public void gameStartedMessage() {
-        view.gameStartedMessage();
+        view.messageGameStarted();
         assertEquals("Your game of blackjack has now started.\r\n" +
                 "At any time you can type 'quit' to exit the game.\r\n" +
                 "In order to begin the game you must first purchase chips which will be used for betting.\r\n", outContent.toString());
@@ -48,20 +50,20 @@ public class CLIViewTest {
     public void displayHand() {
         Player player = new Player(0);
         player.addCard(new Card(Card.Number.EIGHT, Card.Suit.CLUBS));
-        view.displayHand(player);
+        view.messageDisplayHand(player, MainController.scoreHand(player.getHand()));
         assertEquals("Your hand : [ C8 ]\r\n", outContent.toString());
     }
 
     @Test
     public void displayCurrentBet() {
-        view.displayCurrentBet(10);
+        view.messageCurrentBet(10);
         assertEquals("Current Bet: 10\r\n", outContent.toString());
     }
 
     @Test
     public void displayCurrentBalance() {
         Player player = new Player(100);
-        view.displayCurrentBalance(player);
+        view.messageCurrentBalance(player);
 
         assertEquals("Your current chip balance is 100 chips.\r\n", outContent.toString());
     }
@@ -69,7 +71,7 @@ public class CLIViewTest {
 
     @Test
     public void quitGame() {
-        view.quitGame();
+        view.messageQuitGame();
         assertEquals("Quit received, quitting the game!\r\n", outContent.toString());
     }
 }

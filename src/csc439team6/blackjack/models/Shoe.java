@@ -16,12 +16,15 @@ public class Shoe {
     private final Random RANDOM = new Random();
     private ArrayList<Deck> decks = new ArrayList<>();
     private final Logger logger = Logger.getLogger(Shoe.class.getName());
+    private int minimumSize;
 
     public Shoe(int deckNumber) {
         logger.entering(getClass().getName(), "Shoe");
         for (int i = 0; i < deckNumber; i++) {
             decks.add(new Deck());
         }
+
+        minimumSize = this.cardCount() / 5;
         logger.exiting(getClass().getName(), "Shoe");
     }
 
@@ -74,5 +77,9 @@ public class Shoe {
         }
         logger.exiting(getClass().getName(), "cardCount");
         return count;
+    }
+
+    public boolean cut() {
+        return cardCount() == minimumSize;
     }
 }
