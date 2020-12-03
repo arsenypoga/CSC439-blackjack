@@ -125,17 +125,30 @@ public class CLIView extends AbstractView {
             logger.info("Displaying Player's hand");
             System.out.println("Your hand score: " + score);
             System.out.print("Your hand : ");
+
+            System.out.print("[ ");
+            for (Card card : player.getHand().getCards()) {
+                System.out.printf("%s ", card.displayString());
+            }
+            System.out.println("]");
+
+
         } else {
             logger.info("Displaying Dealer's hand");
             System.out.println("Dealer's hand score: " + score);
             System.out.print("Dealer's hand : ");
-        }
-        System.out.print("[ ");
-        for (Card card : player.getHand().getCards()) {
-            System.out.printf("%s ", card.displayString());
-        }
-        System.out.println("]");
+            System.out.print("[ ");
+            for (Card card : player.getHand().getCards()) {
+                if (card.isVisible()){
+                    System.out.printf("%s ", card.displayString());
+                } else {
+                    System.out.print("# ");
+                }
+            }
+            System.out.println("]");
 
+
+        }
 
         logger.exiting(getClass().getName(), "displayHand");
     }

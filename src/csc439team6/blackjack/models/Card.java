@@ -16,7 +16,7 @@ public class Card implements Comparable<Card> {
     private final Number number;
     private final Suit suit;
     private static final Logger logger = Logger.getLogger(Card.class.getName());
-
+    private boolean isVisible;
     /**
      * Creates a Card object and sets the number and suit variables.
      *
@@ -27,6 +27,7 @@ public class Card implements Comparable<Card> {
         logger.entering(getClass().getName(), "Card");
         this.number = number;
         this.suit = suit;
+        isVisible = false;
         logger.exiting(getClass().getName(), "Card");
     }
 
@@ -53,6 +54,15 @@ public class Card implements Comparable<Card> {
         logger.exiting(getClass().getName(), "getSuit");
         return suit;
     }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
     /**
      * Compares Card with an any object.
      *

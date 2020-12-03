@@ -41,6 +41,19 @@ public abstract class AbstractPlayer {
 
 
     /**
+     * Adds card to the Hand
+     * @param card Card
+     */
+    public void addCard(Card card, boolean isVisible) {
+        logger.entering(getClass().getName(), "addCard");
+        Card card1 = card;
+        card1.setVisible(isVisible);
+        this.hand.addCard(card1);
+        logger.exiting(getClass().getName(), "addCard");
+    }
+
+
+    /**
      * Resets hand
      */
     public void resetHand() {
