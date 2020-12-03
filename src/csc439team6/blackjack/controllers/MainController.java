@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
@@ -22,6 +23,8 @@ public class MainController {
     private Shoe shoe;
 
     public MainController(AbstractView view) {
+        LogManager.getLogManager().getLogger("").setLevel(Level.WARNING);
+
         logger = Logger.getLogger(MainController.class.getName());
         logger.entering(getClass().getName(), "MainController");
 
@@ -54,7 +57,7 @@ public class MainController {
         player.addCard(shoe.pickCard());
         player.addCard(shoe.pickCard());
 
-        dealer.addCard(shoe.pickCard());
+        dealer.addCard(shoe.pickCard(), true);
         dealer.addCard(shoe.pickCard());
 
         displayHand(player, scoreHand(player.getHand()));
@@ -76,24 +79,41 @@ public class MainController {
         if (action == Action.HIT) {
             view.messageHit();
             player.addCard(shoe.pickCard());
+            view.messageDisplayHand(player, scoreHand(player.getHand()));
         } else if (action == Action.STAND) {
             view.messageStand();
+            view.messageDisplayHand(player, scoreHand(player.getHand()));
         } else if (action == Action.DOUBLE) {
             view.messageDouble();
             player.incrementBet(player.getBet());
             player.addCard(shoe.pickCard());
+            view.messageDisplayHand(player, scoreHand(player.getHand()));
         }
 
-        //================================================================================
-        // Determine if either Player or Dealer have busted
-        //================================================================================
 
         // Player bust check
         int playerScore = scoreHand(player.getHand());
         if (playerScore > 21) {
             view.messagePlayerBust(playerScore);
             view.messageQuitGame();
+            System.exit(0);
         }
+
+        while(action != Action.STAND) {
+            action = promptAction(Action.HIT, Action.STAND);
+            view.messageHit();
+            player.addCard(shoe.pickCard());
+            view.messageDisplayHand(player, scoreHand(player.getHand()));
+            if (scoreHand(player.getHand()) > 21) {
+                view.messagePlayerBust(scoreHand(player.getHand()));
+                view.messageQuitGame();
+            }
+        }
+
+        //================================================================================
+        // Determine if either Player or Dealer have busted
+        //================================================================================
+
         // After all the actions player always stands.
         // Therefore dealer must hit util the condition
 
