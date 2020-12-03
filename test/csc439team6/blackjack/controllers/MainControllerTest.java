@@ -45,7 +45,7 @@ public class MainControllerTest {
     public void displayHand() {
         TestView testview = new TestView();
         MainController controller = new MainController(testview);
-        controller.displayHand(controller.getPlayer());
+        controller.displayHand(controller.getPlayer(), MainController.scoreHand(controller.getDealer().getHand()));
     }
 
     @Test

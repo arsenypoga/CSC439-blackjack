@@ -5,6 +5,7 @@ import csc439team6.blackjack.views.AbstractView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,18 +15,19 @@ import java.util.logging.Logger;
  */
 public class MainController {
 
+    private final Logger logger;
     private AbstractView view;
     private Player player;
     private Dealer dealer;
     private Shoe shoe;
-    private final Logger logger = Logger.getLogger(MainController.class.getName());
 
     public MainController(AbstractView view) {
+        logger = Logger.getLogger(MainController.class.getName());
         logger.entering(getClass().getName(), "MainController");
 
         this.view = view;
         this.dealer = new Dealer();
-        this.shoe =  new Shoe(3);
+        this.shoe = new Shoe(3);
         this.player = new Player(0);
 
         logger.exiting(getClass().getName(), "MainController");
@@ -37,183 +39,101 @@ public class MainController {
     public void playBlackjack() {
         logger.entering(getClass().getName(), "playBlackjack");
 
-        view.gameStartedMessage();
+        view.messageGameStarted();
         purchaseChips();
         makeInitialBet();
 
-        checkShoeSize();
-        populateInitialHands(this.player, this.dealer);
-        displayHand(this.player);
-        displayHand(this.dealer);
+        //================================================================================
+        // Cut Shoe
+        //================================================================================
+        shoe.cut();
 
-        String nextPlayerAction = getNextAction(this.player, getHandValue(this.player)); //method to get the action of the player
-        initiatePlayerAction(nextPlayerAction);
+        //================================================================================
+        // Deal and Display initial Hands
+        //================================================================================
+        player.addCard(shoe.pickCard());
+        player.addCard(shoe.pickCard());
 
-        determineWinner();
-        player.getHand().clear();
-        dealer.getHand().clear();
+        dealer.addCard(shoe.pickCard());
+        dealer.addCard(shoe.pickCard());
 
-        try {
-            if (view.playAgain()) {
-                playBlackjack();
-            } else {
-                view.quitGame();
-            }
-        } catch (IOException e) {
-            view.quitGame();
+        displayHand(player, scoreHand(player.getHand()));
+        displayHand(dealer, scoreHand(dealer.getHand()));
+        Action action = null;
+
+        //================================================================================
+        // Determine allowed actions
+        //================================================================================
+        if (player.getHand().size() >= 2 && scoreHand(player.getHand()) >=9 && scoreHand(player.getHand()) <= 11) {
+            action = promptAction(Action.HIT, Action.STAND, Action.DOUBLE);
+        } else {
+            action = promptAction(Action.HIT, Action.STAND);
+        }
+
+        //================================================================================
+        // Execute selected action
+        //================================================================================
+        if (action == Action.HIT) {
+            view.messageHit();
+            player.addCard(shoe.pickCard());
+        } else if (action == Action.STAND) {
+            view.messageStand();
+        } else if (action == Action.DOUBLE) {
+            view.messageDouble();
+            player.incrementBet(player.getBet());
+            player.addCard(shoe.pickCard());
+        }
+
+        //================================================================================
+        // Determine if either Player or Dealer have busted
+        //================================================================================
+
+        // Player bust check
+        int playerScore = scoreHand(player.getHand());
+        if (playerScore > 21) {
+            view.messagePlayerBust(playerScore);
+            view.messageQuitGame();
+        }
+        // After all the actions player always stands.
+        // Therefore dealer must hit util the condition
+
+        int dealerScore = scoreHand(dealer.getHand());
+        while(dealerScore < 17) {
+            dealer.addCard(shoe.pickCard());
+            dealerScore = scoreHand(dealer.getHand());
+        }
+        // Check if the Dealer has busted
+        if (dealerScore > 21) {
+            view.messageDealerBust(dealerScore);
+            view.messageQuitGame();
+        }
+
+        //================================================================================
+        // Compare Dealer and Player scores
+        //================================================================================
+        if (dealerScore == playerScore) {
+            view.messageTie(dealerScore);
+        } else if (dealerScore > playerScore) {
+            view.messageDealerWin(playerScore, dealerScore);
+        } else {
+            view.messagePlayerWin(playerScore, dealerScore);
         }
 
         logger.exiting(getClass().getName(), "playBlackjack");
     }
 
     /**
-     * method to refill the shoe if the number of cards remaining is less than 30
-     * This number is based off of an initial shoe size of 3 decks.
-     */
-    private void checkShoeSize() {
-        if (shoe.cardCount() < 30) {
-            shoe.repopulateShoe(3);
-        }
-    }
-
-    /**
-     * Method to determine the winner of the game once the playBlackjack() flow has completed.
-     */
-    private void determineWinner() {
-        if (getHandValue(player) > 21 || getHandValue(dealer) > getHandValue(player)) {
-            view.dealerWins();
-        } else if (getHandValue(dealer) > 21 || getHandValue(player) > getHandValue(dealer)) {
-            view.playerWins();
-        } else {
-            view.gameDraw();
-        }
-    }
-
-    /**
-     * Method to determine the action of the player and next steps in the flow to take depending on their input
-     * @param nextPlayerAction
-     */
-    private void initiatePlayerAction(String nextPlayerAction) {
-        if (nextPlayerAction.equals("DOUBLE")) { // validation for if double was selected
-            player.setBet(player.getBet() * 2); // double bet
-            player.addCard(shoe.pickCard()); // add new card to hand
-            if (getHandValue(player) > 21 ) {
-                view.bustMessage(getHandValue(player));
-            } else {
-                view.standMessage(getHandValue(player));
-                view.dealersTurn();
-                initiateDealerAction();
-            }
-        } else if (nextPlayerAction.equals("HIT")) { //logic for the option of HIT being selected
-            player.addCard(shoe.pickCard());
-            int newHandValue = getHandValue(player);
-            if (newHandValue == 21) {
-                view.standMessage(getHandValue(player));
-                view.dealersTurn();
-                initiateDealerAction();
-            } else if (newHandValue < 21) {
-                initiatePlayerAction(getNextAction(player, newHandValue));
-            } else {
-                view.bustMessage(newHandValue);
-            }
-        } else if (nextPlayerAction.equals("STAND")) {
-            view.standMessage(getHandValue(player));
-            view.dealersTurn();
-            initiateDealerAction();
-        } else {
-            view.quitGame();
-            System.exit(0);
-        }
-    }
-
-    /**
-     * Automated dealer action method, this method will simulate the dealer drawing a card until the hand value is
-     * greater than or equal to 17
-     */
-    private void initiateDealerAction() {
-        view.dealersHandValue(getHandValue(dealer));
-        if (getHandValue(dealer) < 17) {
-            dealer.addCard(shoe.pickCard());
-            initiateDealerAction();
-        }
-    }
-
-    /**
-     * method to get the action that the player would like to take
-     * @param player
-     * @param currentHandValue
-     * @return
-     */
-    private String getNextAction(AbstractPlayer player, int currentHandValue) {
-        try {
-            return view.getAction(player, currentHandValue);
-        } catch (IOException e) {
-            view.quitGame();
-            System.exit(0);
-            return null;
-        }
-    }
-
-    /**
-     * method for getting the hand value of the player/dealer based on the enum Number class
-     * @param player
-     * @return
-     */
-    private int getHandValue(AbstractPlayer player) {
-        int currentHandValue = 0;
-        ArrayList<Card> playerCards = player.getHand().getCards();
-
-        for (Card cards : playerCards) {
-            if (cards.getNumber() == Card.Number.ACE) {
-                if (currentHandValue < 11) {
-                    currentHandValue += 11;
-                } else {
-                    currentHandValue += 1;
-                }
-            } else if (cards.getNumber() == Card.Number.JACK
-                        || cards.getNumber() == Card.Number.QUEEN
-                        || cards.getNumber() == Card.Number.KING) {
-                currentHandValue += 10;
-            } else {
-                Card.Number value = cards.getNumber();
-                currentHandValue += cards.getNumber().valueOf(value.toString()).ordinal() + 1;
-            }
-        }
-        return currentHandValue;
-    }
-
-    /**
-     * method for the initial draws of cards, both player cards will be visible while only one dealer card will be
-     * @param player
-     * @param dealer
-     */
-    public void populateInitialHands(AbstractPlayer player, AbstractPlayer dealer) {
-        for(int i = 0; i < 2; i++) { //player cards with isVisible boolean set to true
-            Card card = shoe.pickCard();
-            card.setVisible(true);
-            player.addCard(card);
-        }
-
-        Card dealerCardOne = shoe.pickCard();
-        dealerCardOne.setVisible(true);
-        Card dealerCardTwo = shoe.pickCard();
-        dealer.addCard(dealerCardOne);
-        dealer.addCard(dealerCardTwo);
-    }
-
-    /**
      * Prompt user to purchase chips.
-     *
      */
     public void purchaseChips() {
         logger.entering(getClass().getName(), "purchaseChips");
 
         try {
-            int chips = view.purchaseChips();
+            int chips = view.promptPurchaseChips();
             player.addChips(chips);
-            logger.log(Level.INFO,  "Player purchased {} chips", chips);
+            logger.log(Level.INFO, "Player purchased {} chips", chips);
         } catch (IOException e) {
-            view.quitGame();
+            view.messageQuitGame();
 
             logger.exiting(getClass().getName(), "incrementBet");
             System.exit(0);
@@ -228,14 +148,14 @@ public class MainController {
     public void makeInitialBet() {
         logger.entering(getClass().getName(), "makeInitialBet");
         try {
-            int bet = view.getInitialBet();
+            int bet = view.promptInitialBet();
             player.reduceChips(bet);
             player.setBet(bet);
         } catch (IOException e) {
 
             logger.info("Quit message command received!");
 
-            view.quitGame();
+            view.messageQuitGame();
 
             logger.exiting(getClass().getName(), "makeInitialBet");
             System.exit(0);
@@ -245,17 +165,37 @@ public class MainController {
 
     /**
      * Displays hand of a player
+     *
      * @param player player
      */
-    public void displayHand(AbstractPlayer player) {
+    public void displayHand(AbstractPlayer player, int score) {
         logger.entering(getClass().getName(), "displayHand");
-        view.displayHand(player);
+        view.messageDisplayHand(player, score);
         logger.exiting(getClass().getName(), "displayHand");
+    }
+
+    /**
+     *
+     */
+    public Action promptAction(Action... allowedAction) {
+        logger.entering(getClass().getName(), "promptAction");
+        try {
+            return view.promptAction(allowedAction);
+        } catch (IOException e) {
+
+            logger.info("Quit message command received!");
+
+            view.messageQuitGame();
+            logger.exiting(getClass().getName(), "makeInitialBet");
+            System.exit(0);
+        }
+        return null;
     }
 
     /**
      * deals card to a player.
      * Player can either be a Dealer or a Player
+     *
      * @param player player
      */
     public void dealCard(AbstractPlayer player) {
@@ -275,11 +215,11 @@ public class MainController {
         logger.entering(getClass().getName(), "incrementBet");
 
         try {
-            int bet = view.incrementBet();
+            int bet = view.promptIncrementBet();
             player.reduceChips(bet);
 
         } catch (IOException e) {
-            view.quitGame();
+            view.messageQuitGame();
 
             logger.exiting(getClass().getName(), "incrementBet");
             System.exit(0);
@@ -289,6 +229,7 @@ public class MainController {
 
     /**
      * Gets view
+     *
      * @return view
      */
     public AbstractView getView() {
@@ -300,6 +241,7 @@ public class MainController {
 
     /**
      * Sets view
+     *
      * @param view
      */
     public void setView(AbstractView view) {
@@ -312,6 +254,7 @@ public class MainController {
 
     /**
      * Gets player
+     *
      * @return player
      */
     public Player getPlayer() {
@@ -322,6 +265,7 @@ public class MainController {
 
     /**
      * Sets player
+     *
      * @param player
      */
     public void setPlayer(Player player) {
@@ -333,6 +277,7 @@ public class MainController {
 
     /**
      * Gets dealer
+     *
      * @return
      */
     public Dealer getDealer() {
@@ -343,6 +288,7 @@ public class MainController {
 
     /**
      * Sets dealer
+     *
      * @param dealer
      */
     public void setDealer(Dealer dealer) {
@@ -353,6 +299,7 @@ public class MainController {
 
     /**
      * gets shoe
+     *
      * @return
      */
     public Shoe getShoe() {
@@ -363,6 +310,7 @@ public class MainController {
 
     /**
      * Sets shoe
+     *
      * @param shoe
      */
     public void setShoe(Shoe shoe) {
@@ -370,5 +318,40 @@ public class MainController {
         this.shoe = shoe;
         logger.exiting(getClass().getName(), "setShoe");
 
+    }
+
+    public static int scoreHand(Hand hand) {
+        int currentScore = 0;
+        ArrayList<Card> currentHand = hand.getCards();
+        Collections.sort(currentHand);
+
+        for (Card card : currentHand) {
+            if (card.getNumber() == Card.Number.TWO) {
+                currentScore += 2;
+            } else if (card.getNumber() == Card.Number.THREE) {
+                currentScore += 3;
+            } else if (card.getNumber() == Card.Number.FOUR) {
+                currentScore += 4;
+            } else if (card.getNumber() == Card.Number.FIVE) {
+                currentScore += 5;
+            } else if (card.getNumber() == Card.Number.SIX) {
+                currentScore += 6;
+            } else if (card.getNumber() == Card.Number.SEVEN) {
+                currentScore += 7;
+            } else if (card.getNumber() == Card.Number.EIGHT) {
+                currentScore += 8;
+            } else if (card.getNumber() == Card.Number.NINE) {
+                currentScore += 9;
+            } else if (card.getNumber() == Card.Number.TEN || card.getNumber() == Card.Number.JACK || card.getNumber() == Card.Number.QUEEN || card.getNumber() == Card.Number.KING) {
+                currentScore += 10;
+            } else if (card.getNumber() == Card.Number.ACE) {
+                if (currentScore + 11 <= 21) {
+                    currentScore += 11;
+                } else {
+                    currentScore += 1;
+                }
+            }
+        }
+        return currentScore;
     }
 }

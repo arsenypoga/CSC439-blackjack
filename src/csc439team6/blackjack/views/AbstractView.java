@@ -1,6 +1,7 @@
 package csc439team6.blackjack.views;
 
 import csc439team6.blackjack.models.AbstractPlayer;
+import csc439team6.blackjack.models.Action;
 import csc439team6.blackjack.models.Hand;
 import csc439team6.blackjack.models.Player;
 
@@ -14,55 +15,50 @@ import java.io.IOException;
 public abstract class AbstractView {
 
     /**
-     * A message to indicate to the user that a new game has begun and instructions on how to quit the game.
-     * @return void
-     */
-    public abstract void gameStartedMessage();
-
-    /**
      * Purchase initial chips, prompt user
      * @return number of chips purchased.
      */
-    public abstract int purchaseChips() throws IOException;
+    public abstract int promptPurchaseChips() throws IOException;
 
     /**
      * Get initial bet from User.
      * @return
      */
-    public abstract int getInitialBet() throws IOException;
+    public abstract int promptInitialBet() throws IOException;
 
     /**
      * Prompts user for an increment number
      */
-    public abstract int incrementBet() throws IOException;
+    public abstract int promptIncrementBet() throws IOException;
+
+    public abstract Action promptAction(Action ...allowedActions) throws IOException;
+
+
+    /**
+     * A message to indicate to the user that a new game has begun and instructions on how to quit the game.
+     * @return void
+     */
+
 
     /**
      * Displays current hand
      * @param player
-     * @throws IOError
      */
-    public abstract void displayHand(AbstractPlayer player);
+    public abstract void messageDisplayHand(AbstractPlayer player, int handScore);
+    public abstract void messageGameStarted();
+    public abstract void messageHit();
+    public abstract void messageStand();
+    public abstract void messageDouble();
+
+    public abstract void messageTie(int score);
+    public abstract void messagePlayerWin(int playerScore, int dealerScore);
+    public abstract void messageDealerWin(int playerScore, int dealerScore);
+
+    public abstract void messagePlayerBust(int score);
+    public abstract void messageDealerBust(int score);
 
     /**
      * shows quit game message.
      */
-    public abstract void quitGame();
-
-    public abstract String getAction(AbstractPlayer player, int currentHandValue) throws IOException;
-
-    public abstract void bustMessage(int currentHandValue);
-
-    public abstract void standMessage(int currentHandValue);
-
-    public abstract void dealerWins();
-
-    public abstract void playerWins();
-
-    public abstract void dealersTurn();
-
-    public abstract void gameDraw();
-
-    public abstract void dealersHandValue(int dealersHandValue);
-
-    public abstract boolean playAgain() throws IOException;
+    public abstract void messageQuitGame();
 }

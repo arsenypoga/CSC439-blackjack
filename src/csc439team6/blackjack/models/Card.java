@@ -12,10 +12,9 @@ import java.util.logging.Logger;
  * @author Arseny Poga, Cory Bradford, Greyson Fangman
  * @version 1.0
  */
-public class Card {
+public class Card implements Comparable<Card> {
     private final Number number;
     private final Suit suit;
-    private boolean isVisible;
     private static final Logger logger = Logger.getLogger(Card.class.getName());
 
     /**
@@ -28,30 +27,8 @@ public class Card {
         logger.entering(getClass().getName(), "Card");
         this.number = number;
         this.suit = suit;
-        this.isVisible = false;
         logger.exiting(getClass().getName(), "Card");
     }
-
-    /**
-     * returns current visibility status
-     * @return
-     */
-    public boolean isVisible() {
-        logger.entering(getClass().getName(), "isVisible");
-        logger.exiting(getClass().getName(), "isVisible");
-        return isVisible;
-    }
-
-    /**
-     * Sets visibility
-     * @param visible
-     */
-    public void setVisible(boolean visible) {
-        logger.entering(getClass().getName(), "setVisible");
-        isVisible = visible;
-        logger.exiting(getClass().getName(), "setVisible");
-    }
-
 
     /**
      * Retrieves card number
@@ -76,7 +53,6 @@ public class Card {
         logger.exiting(getClass().getName(), "getSuit");
         return suit;
     }
-
     /**
      * Compares Card with an any object.
      *
@@ -120,6 +96,11 @@ public class Card {
 
     public String displayString() {
         return this.suit.toString().toUpperCase().charAt(0) + this.number.shortString();
+    }
+
+    @Override
+    public int compareTo(Card o) {
+        return this.number.compareTo(o.number);
     }
 
     /**

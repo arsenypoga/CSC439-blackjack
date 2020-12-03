@@ -1,11 +1,9 @@
 package csc439team6.blackjack.views;
 
-import csc439team6.blackjack.models.AbstractPlayer;
-import csc439team6.blackjack.models.Card;
-import csc439team6.blackjack.models.Dealer;
-import csc439team6.blackjack.models.Player;
+import csc439team6.blackjack.models.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +22,7 @@ public class CLIView extends AbstractView {
      * Show game started message.
      */
     @Override
-    public void gameStartedMessage() {
+    public void messageGameStarted() {
         logger.entering(getClass().getName(), "gameStartedMessage");
 
         System.out.println("Your game of blackjack has now started.");
@@ -34,6 +32,49 @@ public class CLIView extends AbstractView {
         logger.exiting(getClass().getName(), "gameStartedMessage");
     }
 
+    @Override
+    public void messageHit() {
+        System.out.println("You hit!");
+    }
+
+    @Override
+    public void messageStand() {
+        System.out.println("You stand!");
+    }
+
+    @Override
+    public void messageDouble() {
+        System.out.println("You double!");
+    }
+
+
+    @Override
+    public void messageTie(int score) {
+        System.out.println("You and the dealer tie with a score of: " + score);
+    }
+
+    @Override
+    public void messagePlayerWin(int playerScore, int dealerScore) {
+        System.out.println("Player wins with a score of: " + playerScore);
+        System.out.println("Dealer score: " + dealerScore);
+    }
+
+    @Override
+    public void messageDealerWin(int playerScore, int dealerScore) {
+        System.out.println("Dealer wins with a score of: " + playerScore);
+        System.out.println("Player score: " + dealerScore);
+    }
+
+    @Override
+    public void messagePlayerBust(int score) {
+        System.out.println("You bust with a score of: " + score);
+    }
+
+    @Override
+    public void messageDealerBust(int score) {
+        System.out.println("Dealer busts with a score of: " + score);
+    }
+
     /**
      * Prompt player to purchase chips
      *
@@ -41,7 +82,7 @@ public class CLIView extends AbstractView {
      * @throws IOException
      */
     @Override
-    public int purchaseChips() throws IOException {
+    public int promptPurchaseChips() throws IOException {
         logger.entering(getClass().getName(), "purchaseChips");
 
         System.out.print("How many chips would you like to purchase?: ");
@@ -59,7 +100,7 @@ public class CLIView extends AbstractView {
      * @throws IOException
      */
     @Override
-    public int getInitialBet() throws IOException {
+    public int promptInitialBet() throws IOException {
         logger.entering(getClass().getName(), "getInitialBet");
 
         System.out.print("How much would you like to bet(this table allows bets from 10-500 chips)? ");
@@ -77,34 +118,24 @@ public class CLIView extends AbstractView {
      * @param player
      */
     @Override
-    public void displayHand(AbstractPlayer player) {
+    public void messageDisplayHand(AbstractPlayer player, int score) {
         logger.entering(getClass().getName(), "displayHand");
 
         if (player instanceof Player) {
             logger.info("Displaying Player's hand");
-
+            System.out.println("Your hand score: " + score);
             System.out.print("Your hand : ");
-            System.out.print("[ ");
-            for (Card card : player.getHand().getCards()) {
-                System.out.printf("%s ", card.displayString());
-            }
-            System.out.println("]");
-        }
-        if (player instanceof Dealer) {
+        } else {
             logger.info("Displaying Dealer's hand");
-            System.out.print("Dealer has: ");
-            System.out.print("[ ");
-
-            for (Card card : player.getHand().getCards()) {
-
-                if (card.isVisible()) {
-                    System.out.printf("%s ", card.displayString());
-                } else {
-                    System.out.print("X ");
-                }
-            }
-            System.out.println("]");
+            System.out.println("Dealer's hand score: " + score);
+            System.out.print("Dealer's hand : ");
         }
+        System.out.print("[ ");
+        for (Card card : player.getHand().getCards()) {
+            System.out.printf("%s ", card.displayString());
+        }
+        System.out.println("]");
+
 
         logger.exiting(getClass().getName(), "displayHand");
     }
@@ -225,7 +256,7 @@ public class CLIView extends AbstractView {
         }
     }
 
-    public void displayCurrentBet(int bet) {
+    public void messageCurrentBet(int bet) {
         logger.entering(getClass().getName(), "displayCurrentBet");
 
         System.out.println("Current Bet: " + bet);
@@ -234,7 +265,7 @@ public class CLIView extends AbstractView {
 
     }
 
-    public void displayCurrentBalance(Player player) {
+    public void messageCurrentBalance(Player player) {
         logger.entering(getClass().getName(), "displayCurrentBalance");
 
         System.out.println("Your current chip balance is " + player.getChips() + " chips.");
@@ -248,7 +279,7 @@ public class CLIView extends AbstractView {
      * @return int bet to increment, 0 if no input
      */
     @Override
-    public int incrementBet() throws IOException {
+    public int promptIncrementBet() throws IOException {
         logger.entering(getClass().getName(), "incrementBet");
 
         System.out.println("Would you want to increment bet? [Y/n]: ");
@@ -259,7 +290,7 @@ public class CLIView extends AbstractView {
         boolean isNumberValid = false;
 
         while(!isFlagValid) {
-            if (line.equals("y") || line.equals("Y")) {
+            if (line.equalsIgnoreCase("Y")) {
                 System.out.println("Increment number: ");
                 incrementNumber = validateIntString(scanLine());
                 while (!isNumberValid) {
@@ -280,10 +311,10 @@ public class CLIView extends AbstractView {
                     isNumberValid = true;
                 }
 
-            } else if (line.equals("n") || line.equals("N")) {
+            } else if (line.equalsIgnoreCase("N")) {
                 isFlagValid = true;
             } else {
-                logger.log(Level.WARNING, "Entered mesasge is not understood: {0}", line);
+                logger.log(Level.WARNING, "Entered message is not understood: {0}", line);
                 System.out.println("Input is not understood, try again!");
                 System.out.println("Would you want to increment bet? [Y/n]: ");
                 line = scanLine();
@@ -293,11 +324,45 @@ public class CLIView extends AbstractView {
         return incrementNumber;
     }
 
+    @Override
+    public Action promptAction(Action ...allowedActions) throws IOException {
+        boolean isInputValid = false;
+        Action returnAction = null;
+        System.out.print("Do you want to: {}?: "+ Arrays.toString(allowedActions));
+        String line = scanLine();
+
+        while(!isInputValid) {
+            if (line.equalsIgnoreCase("HIT")) {
+                returnAction = Action.HIT;
+            } else if (line.equalsIgnoreCase("DOUBLE")) {
+                returnAction = Action.DOUBLE;
+            }
+            else if (line.equalsIgnoreCase("STAND")) {
+                returnAction = Action.STAND;
+            } else {
+                logger.log(Level.WARNING, "Entered message is not understood: {0}", line);
+                System.out.println("Input is not understood, try again!");
+                System.out.println("Would you want to increment bet? [Y/n]: ");
+                line = scanLine();
+            }
+
+            if (!Arrays.asList(allowedActions).contains(returnAction)) {
+                System.out.println("Input is not allowed, try again with: " + allowedActions);
+                line = scanLine();
+            } else {
+                isInputValid = true;
+            }
+
+        }
+        return returnAction;
+    }
+
+
     /**
      * Show quit message
      */
     @Override
-    public void quitGame() {
+    public void messageQuitGame() {
         logger.entering(getClass().getName(), "quitGame");
 
         System.out.println("Quit received, quitting the game. Thank you for playing!");
