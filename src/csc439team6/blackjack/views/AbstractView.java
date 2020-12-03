@@ -54,8 +54,19 @@ public abstract class AbstractView {
     public abstract void messagePlayerWin(int playerScore, int dealerScore);
     public abstract void messageDealerWin(int playerScore, int dealerScore);
 
-    public abstract void messagePlayerBust(int score);
+    public abstract void messagePlayerBust();
     public abstract void messageDealerBust(int score);
+
+    /**
+     * Message logs pertaining to dealer
+     */
+    public abstract void dealersTurn(int currentDealerScore);
+    public abstract void messageDisplayDealerHit(int dealerScore);
+
+    /**
+     * shows play again game message.
+     */
+    public abstract boolean playAgain() throws IOException;
 
     /**
      * shows quit game message.

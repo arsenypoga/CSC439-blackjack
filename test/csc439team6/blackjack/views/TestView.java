@@ -54,13 +54,28 @@ public class TestView extends AbstractView {
     }
 
     @Override
-    public void messagePlayerBust(int score) {
-        System.out.println("You bust with a score of: " + score);
+    public void messagePlayerBust() {
+
     }
 
     @Override
     public void messageDealerBust(int score) {
         System.out.println("Dealer busts with a score of: " + score);
+    }
+
+    @Override
+    public void dealersTurn(int currentDealerScore) {
+
+    }
+
+    @Override
+    public void messageDisplayDealerHit(int dealerScore) {
+
+    }
+
+    @Override
+    public boolean playAgain() throws IOException {
+        return false;
     }
 
 
@@ -100,57 +115,10 @@ public class TestView extends AbstractView {
 
     }
 
-
     @Override
     public void messageQuitGame() {
         System.out.println("Quit received, quitting the game!");
     }
-
-    @Override
-    public String getAction(AbstractPlayer player, int currentHandValue) throws IOException {
-        return null;
-    }
-
-    @Override
-    public void bustMessage(int currentHandValue) {
-
-    }
-
-    @Override
-    public void standMessage(int currentHandValue) {
-
-    }
-
-    @Override
-    public void dealerWins() {
-
-    }
-
-    @Override
-    public void playerWins() {
-
-    }
-
-    @Override
-    public void dealersTurn() {
-
-    }
-
-    @Override
-    public void gameDraw() {
-
-    }
-
-    @Override
-    public void dealersHandValue(int dealersHandValue) {
-
-    }
-
-    @Override
-    public boolean playAgain() throws IOException {
-        return false;
-    }
-
 
 }
 

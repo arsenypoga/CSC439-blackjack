@@ -79,7 +79,13 @@ public class Shoe {
         return count;
     }
 
-    public boolean cut() {
-        return cardCount() == minimumSize;
+    public void cut() {
+        logger.entering(getClass().getName(), "shoe cut");
+        if (cardCount() <= minimumSize ) {
+            for (int i = 0; i < 3; i++) {
+                decks.add(new Deck());
+            }
+        }
+        logger.exiting(getClass().getName(), "shoe cut");
     }
 }

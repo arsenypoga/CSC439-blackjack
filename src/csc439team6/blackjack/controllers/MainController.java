@@ -39,7 +39,7 @@ public class MainController {
     /**
      * Starts game sequence
      */
-    public void playBlackjack() {
+    public void playBlackjack() throws IOException {
         logger.entering(getClass().getName(), "playBlackjack");
 
         view.messageGameStarted();
@@ -67,7 +67,15 @@ public class MainController {
         //================================================================================
         // Determine allowed actions
         //================================================================================
-        if (player.getHand().size() >= 2 && scoreHand(player.getHand()) >=9 && scoreHand(player.getHand()) <= 11) {
+        if (scoreHand(player.getHand()) == 21) {
+            view.messagePlayerWin(scoreHand(player.getHand()), scoreHand(dealer.getHand()));
+            if (view.playAgain()) {
+                playAgain();
+            } else {
+                view.messageQuitGame();
+                System.exit(0);
+            }
+        } else if (scoreHand(player.getHand()) >=9 && scoreHand(player.getHand()) <= 11) {
             action = promptAction(Action.HIT, Action.STAND, Action.DOUBLE);
         } else {
             action = promptAction(Action.HIT, Action.STAND);
@@ -94,19 +102,33 @@ public class MainController {
         // Player bust check
         int playerScore = scoreHand(player.getHand());
         if (playerScore > 21) {
-            view.messagePlayerBust(playerScore);
-            view.messageQuitGame();
-            System.exit(0);
+            view.messagePlayerBust();
+            view.messageDealerWin(playerScore, scoreHand(dealer.getHand()));
+            if (view.playAgain()) {
+                playAgain();
+            } else {
+                view.messageQuitGame();
+                System.exit(0);
+            }
         }
 
         while(action != Action.STAND) {
             action = promptAction(Action.HIT, Action.STAND);
+            if (action == Action.STAND) {
+                break;
+            }
             view.messageHit();
             player.addCard(shoe.pickCard());
             view.messageDisplayHand(player, scoreHand(player.getHand()));
             if (scoreHand(player.getHand()) > 21) {
-                view.messagePlayerBust(scoreHand(player.getHand()));
-                view.messageQuitGame();
+                view.messagePlayerBust();
+                view.messageDealerWin(scoreHand(player.getHand()), scoreHand(dealer.getHand()));
+                if (view.playAgain()) {
+                    playAgain();
+                } else {
+                    view.messageQuitGame();
+                    System.exit(0);
+                }
             }
         }
 
@@ -118,14 +140,22 @@ public class MainController {
         // Therefore dealer must hit util the condition
 
         int dealerScore = scoreHand(dealer.getHand());
+        view.dealersTurn(dealerScore);
         while(dealerScore < 17) {
             dealer.addCard(shoe.pickCard());
             dealerScore = scoreHand(dealer.getHand());
+            view.messageDisplayDealerHit(dealerScore);
         }
         // Check if the Dealer has busted
         if (dealerScore > 21) {
             view.messageDealerBust(dealerScore);
-            view.messageQuitGame();
+            view.messagePlayerWin(playerScore, dealerScore);
+            if (view.playAgain()) {
+                playAgain();
+            } else {
+                view.messageQuitGame();
+                System.exit(0);
+            }
         }
 
         //================================================================================
@@ -140,6 +170,12 @@ public class MainController {
         }
 
         logger.exiting(getClass().getName(), "playBlackjack");
+    }
+
+    public void playAgain() throws IOException {
+        player.getHand().clear();
+        dealer.getHand().clear();
+        playBlackjack();
     }
 
     /**

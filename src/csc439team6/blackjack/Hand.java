@@ -1,5 +1,7 @@
 package csc439team6.blackjack;
 
+import csc439team6.blackjack.models.Card;
+
 import java.util.ArrayList;
 /**
  * This is a hand of a blackjack game.

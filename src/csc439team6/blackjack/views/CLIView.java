@@ -61,18 +61,23 @@ public class CLIView extends AbstractView {
 
     @Override
     public void messageDealerWin(int playerScore, int dealerScore) {
-        System.out.println("Dealer wins with a score of: " + playerScore);
-        System.out.println("Player score: " + dealerScore);
+        System.out.println("Player score: " + playerScore);
+        System.out.println("Dealer wins with a score of: " + dealerScore);
     }
 
     @Override
-    public void messagePlayerBust(int score) {
-        System.out.println("You bust with a score of: " + score);
+    public void messagePlayerBust() {
+        System.out.println("You bust!");
     }
 
     @Override
     public void messageDealerBust(int score) {
         System.out.println("Dealer busts with a score of: " + score);
+    }
+
+    @Override
+    public void messageDisplayDealerHit(int dealerScore) {
+        System.out.println("The dealer has hit, dealers current hand value is: " + dealerScore);
     }
 
     /**
@@ -91,6 +96,18 @@ public class CLIView extends AbstractView {
 
         logger.exiting(getClass().getName(), "purchaseChips");
         return validateIntString(line);
+    }
+
+    //TODO: cleanup this logic
+    @Override
+    public boolean playAgain() throws IOException {
+        System.out.println("Would you like to play again? (Y/N)");
+        String line = scanLine();
+        if (line.equalsIgnoreCase("Y")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -135,7 +152,6 @@ public class CLIView extends AbstractView {
 
         } else {
             logger.info("Displaying Dealer's hand");
-            System.out.println("Dealer's hand score: " + score);
             System.out.print("Dealer's hand : ");
             System.out.print("[ ");
             for (Card card : player.getHand().getCards()) {
@@ -153,76 +169,9 @@ public class CLIView extends AbstractView {
         logger.exiting(getClass().getName(), "displayHand");
     }
 
-    /**
-     * method to get the next action that the player would like to perform. String will be converted to upper case
-     * to make data validation easier.
-     * @param currentHandValue
-     * @return String
-     * @throws IOException
-     */
     @Override
-    public String getAction(AbstractPlayer player, int currentHandValue) throws IOException {
-        System.out.println("Your current hand value is: " + currentHandValue);
-        if (currentHandValue >= 9 && currentHandValue <= 11 && player.getHand().size() == 2) {
-            System.out.println("Would you like to hit, double, or stand? ");
-            return scanLine().toUpperCase();
-        } else {
-            System.out.println("Would you like to hit or stand? ");
-            return scanLine().toUpperCase();
-        }
-    }
-
-    @Override
-    public void bustMessage(int currentHandValue) {
-        System.out.println("You have bust with a hand value of: " + currentHandValue);
-    }
-
-    @Override
-    public void standMessage(int currentHandValue) {
-        System.out.println("You are now standing with a hand value of: " + currentHandValue);
-    }
-
-    @Override
-    public void dealersTurn() {
-        System.out.println("The dealer will now begin to play");
-    }
-
-    @Override
-    public void dealersHandValue(int dealersHandValue) {
-        if (dealersHandValue == 21) {
-            System.out.println("The dealer has a hand value of " + dealersHandValue);
-        } else if (dealersHandValue > 21) {
-            System.out.println("The dealer has a hand value of " + dealersHandValue + " - The dealer has bust");
-        } else if (dealersHandValue >= 17) {
-            System.out.println("The dealer has a hand value of " + dealersHandValue + " - Dealer will now stand");
-        } else {
-            System.out.println("The dealer has a hand value of " + dealersHandValue + " - The dealer will now hit");
-        }
-    }
-
-    @Override
-    public void dealerWins() {
-        System.out.println("The dealer has won the game");
-    }
-
-    @Override
-    public void playerWins() {
-        System.out.println("You won the game!");
-    }
-
-    @Override
-    public void gameDraw() {
-        System.out.println("The game resulted in a draw!");
-    }
-
-    @Override
-    public boolean playAgain() throws IOException {
-        System.out.println("Would you like to play again? {Y/N)");
-        if (scanLine().toUpperCase().equals("Y")) {
-            return true;
-        } else {
-            return false;
-        }
+    public void dealersTurn(int currentDealerScore) {
+        System.out.println("The dealer will now begin to play. The dealers hand value is: " + currentDealerScore);
     }
 
     /**

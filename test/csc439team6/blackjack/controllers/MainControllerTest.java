@@ -6,6 +6,8 @@ import csc439team6.blackjack.views.AbstractView;
 import csc439team6.blackjack.views.TestView;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,7 +27,7 @@ public class MainControllerTest {
     }
 
     @Test
-    public void playBlackJack() {
+    public void playBlackJack() throws IOException {
         controller.playBlackjack();
     }
 
