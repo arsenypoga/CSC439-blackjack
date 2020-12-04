@@ -108,7 +108,7 @@ public class TestView extends AbstractView {
 
     @Override
     public Action promptAction(Action... allowedActions) throws IOException {
-        return null;
+        return Action.STAND;
     }
 
     @Override

@@ -146,7 +146,6 @@ public class Card implements Comparable<Card> {
      * @version 1.0
      */
     public enum Number {
-        ACE,
         TWO,
         THREE,
         FOUR,
@@ -158,8 +157,8 @@ public class Card implements Comparable<Card> {
         TEN,
         JACK,
         QUEEN,
-        KING;
-
+        KING,
+        ACE;
         /**
          * Returns short string version of a card number
          * @return

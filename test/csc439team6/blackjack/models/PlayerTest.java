@@ -82,4 +82,24 @@ public class PlayerTest {
         player.setBet(100);
         assertEquals(100, player.getBet());
     }
+
+    @Test
+    public void addCard() {
+        player.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        assertEquals(1, player.getHand().size());
+        player.resetHand();
+        player.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES), true);
+        Card playerCard = player.getHand().getCards().get(0);
+        assertTrue(playerCard.isVisible());
+    }
+
+    @Test
+    public void resetHand() {
+        player.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        player.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        player.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        player.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        player.resetHand();
+        assertEquals(0, player.getHand().size());
+    }
 }

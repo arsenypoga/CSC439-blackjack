@@ -17,9 +17,11 @@ public class Shoe {
     private ArrayList<Deck> decks = new ArrayList<>();
     private final Logger logger = Logger.getLogger(Shoe.class.getName());
     private int minimumSize;
-
+    private int initialDeckCount;
     public Shoe(int deckNumber) {
         logger.entering(getClass().getName(), "Shoe");
+        initialDeckCount = deckNumber;
+
         for (int i = 0; i < deckNumber; i++) {
             decks.add(new Deck());
         }
@@ -81,11 +83,14 @@ public class Shoe {
 
     public void cut() {
         logger.entering(getClass().getName(), "shoe cut");
+
         if (cardCount() <= minimumSize ) {
-            for (int i = 0; i < 3; i++) {
-                decks.add(new Deck());
+            this.decks.clear();
+            for (int i = 0; i < initialDeckCount; i++) {
+                this.decks.add(new Deck());
             }
         }
+
         logger.exiting(getClass().getName(), "shoe cut");
     }
 }

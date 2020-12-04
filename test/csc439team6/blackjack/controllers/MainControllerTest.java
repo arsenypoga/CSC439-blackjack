@@ -27,11 +27,6 @@ public class MainControllerTest {
     }
 
     @Test
-    public void playBlackJack() throws IOException {
-        controller.playBlackjack();
-    }
-
-    @Test
     public void purchaseChips() {
         controller.purchaseChips();
         assertEquals(100, controller.getPlayer().getChips());
@@ -123,4 +118,36 @@ public class MainControllerTest {
         controller.setShoe(previousShoe);
     }
 
+    @Test
+    public void playAgain() {
+        assertFalse(controller.playAgain());
+    }
+
+    @Test
+    public void promptAction() {
+        assertEquals(Action.STAND, controller.promptAction(Action.STAND, Action.HIT));
+    }
+
+    @Test
+    public void scoreHand() {
+        Hand hand = new Hand();
+        hand.addCard(new Card(Card.Number.TEN, Card.Suit.SPADES));
+        assertEquals(10, MainController.scoreHand(hand));
+
+        hand.clear();
+        hand.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        assertEquals(11, MainController.scoreHand(hand));
+
+        hand.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        assertEquals(12, MainController.scoreHand(hand));
+
+        hand.clear();
+        hand.addCard(new Card(Card.Number.TEN, Card.Suit.SPADES));
+        hand.addCard(new Card(Card.Number.NINE, Card.Suit.SPADES));
+        hand.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+        hand.addCard(new Card(Card.Number.ACE, Card.Suit.SPADES));
+
+        assertEquals(21, MainController.scoreHand(hand));
+
+    }
 }

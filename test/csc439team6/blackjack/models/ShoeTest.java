@@ -66,4 +66,16 @@ public class ShoeTest {
         shoe = new Shoe(3);
         assertEquals(52*3, shoe.cardCount());
     }
+
+    @Test
+    public void cut() {
+        Shoe shoe = new Shoe(1);
+        for (int i = 0; i < 45; i++) {
+            shoe.pickCard();
+        }
+
+        shoe.cut();
+        assertEquals(52, shoe.cardCount());
+
+    }
 }

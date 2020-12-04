@@ -51,7 +51,7 @@ public class CLIViewTest {
         Player player = new Player(0);
         player.addCard(new Card(Card.Number.EIGHT, Card.Suit.CLUBS));
         view.messageDisplayHand(player, MainController.scoreHand(player.getHand()));
-        assertEquals("Your hand : [ C8 ]\r\n", outContent.toString());
+        assertEquals("Your hand score: 8\r\nYour hand : [ C8 ]\r\n", outContent.toString());
     }
 
     @Test
@@ -72,6 +72,6 @@ public class CLIViewTest {
     @Test
     public void quitGame() {
         view.messageQuitGame();
-        assertEquals("Quit received, quitting the game!\r\n", outContent.toString());
+        assertEquals("Quit received, quitting the game. Thank you for playing!\r\n", outContent.toString());
     }
 }
