@@ -13,10 +13,11 @@ import java.util.logging.Logger;
  * @version 1.0
  */
 public class Card implements Comparable<Card> {
+    private static final Logger logger = Logger.getLogger(Card.class.getName());
     private final Number number;
     private final Suit suit;
-    private static final Logger logger = Logger.getLogger(Card.class.getName());
     private boolean isVisible;
+
     /**
      * Creates a Card object and sets the number and suit variables.
      *
@@ -36,8 +37,6 @@ public class Card implements Comparable<Card> {
      *
      * @return Number number
      */
-
-
     public Number getNumber() {
         logger.entering(getClass().getName(), "getNumber");
         logger.exiting(getClass().getName(), "getNumber");
@@ -55,6 +54,12 @@ public class Card implements Comparable<Card> {
         return suit;
     }
 
+    /**
+     * Retrieves Card visibility.
+     * This only impacts dealer hand
+     *
+     * @return Suit suite
+     */
     public boolean isVisible() {
         logger.entering(getClass().getName(), "isVisible");
         logger.exiting(getClass().getName(), "isVisible");
@@ -62,6 +67,12 @@ public class Card implements Comparable<Card> {
         return isVisible;
     }
 
+    /**
+     * Sets card visibility.
+     * This only impacts dealer hand
+     *
+     * @return Suit suite
+     */
     public void setVisible(boolean visible) {
         logger.entering(getClass().getName(), "setVisible");
         isVisible = visible;
@@ -109,12 +120,23 @@ public class Card implements Comparable<Card> {
         return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
     }
 
+    /**
+     * Returns a a String that is displayed to user
+     *
+     * @return
+     */
     public String displayString() {
         logger.entering(getClass().getName(), "displayString");
         logger.exiting(getClass().getName(), "displayString");
         return this.suit.toString().toUpperCase().charAt(0) + this.number.shortString();
     }
 
+    /**
+     * Used for sorting the cards.
+     *
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Card o) {
         logger.entering(getClass().getName(), "compareTo");
@@ -159,12 +181,14 @@ public class Card implements Comparable<Card> {
         QUEEN,
         KING,
         ACE;
+
         /**
          * Returns short string version of a card number
+         *
          * @return
          */
         public String shortString() {
-        logger.entering(getClass().getName(), "shortString");
+            logger.entering(getClass().getName(), "shortString");
             String returnString = "";
             switch (this) {
                 case ACE:

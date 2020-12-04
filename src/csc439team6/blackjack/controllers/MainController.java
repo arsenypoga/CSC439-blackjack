@@ -22,6 +22,10 @@ public class MainController {
     private Dealer dealer;
     private Shoe shoe;
 
+    /**
+     * Creates main controller
+     * @param view View
+     */
     public MainController(AbstractView view) {
         LogManager.getLogManager().getLogger("").setLevel(Level.WARNING);
 
@@ -41,11 +45,11 @@ public class MainController {
      */
     public void playBlackjack() {
         logger.entering(getClass().getName(), "playBlackjack");
-
+        boolean inGameLoop = true;
         view.messageGameStarted();
         purchaseChips();
 
-        while(true) {
+        while(inGameLoop) {
             makeInitialBet();
 
             //================================================================================
@@ -216,6 +220,10 @@ public class MainController {
         logger.exiting(getClass().getName(), "makeInitialBet");
     }
 
+    /**
+     * Wrapper around view.promptPlayAgain that handles quit message
+     * @return
+     */
     public boolean playAgain() {
         logger.entering(getClass().getName(), "playAgain");
         try {
@@ -245,7 +253,7 @@ public class MainController {
     }
 
     /**
-     *
+     * Wrapper around view.promptAction(), allows user to pick between multiple allowed actions
      */
     public Action promptAction(Action... allowedAction) {
         logger.entering(getClass().getName(), "promptAction");
@@ -390,6 +398,11 @@ public class MainController {
 
     }
 
+    /**
+     * Scores a hand.
+     * @param hand hand to score
+     * @return int score
+     */
     public static int scoreHand(Hand hand) {
         int currentScore = 0;
         ArrayList<Card> currentHand = hand.getCards();

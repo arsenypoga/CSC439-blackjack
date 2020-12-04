@@ -1,7 +1,5 @@
 package csc439team6.blackjack.models;
 
-import csc439team6.blackjack.controllers.MainController;
-
 import java.util.logging.Logger;
 
 /**
@@ -21,16 +19,18 @@ public abstract class AbstractPlayer {
 
     /**
      * Gets hand
+     *
      * @return Hand
      */
     public Hand getHand() {
         logger.entering(getClass().getName(), "getHand");
         logger.exiting(getClass().getName(), "getHand");
-         return hand;
+        return hand;
     }
 
     /**
      * Adds card to the Hand
+     *
      * @param card Card
      */
     public void addCard(Card card) {
@@ -42,6 +42,7 @@ public abstract class AbstractPlayer {
 
     /**
      * Adds card to the Hand
+     *
      * @param card Card
      */
     public void addCard(Card card, boolean isVisible) {
@@ -54,7 +55,7 @@ public abstract class AbstractPlayer {
 
 
     /**
-     * Resets hand
+     * Clears hand
      */
     public void resetHand() {
         logger.entering(getClass().getName(), "resetHand");

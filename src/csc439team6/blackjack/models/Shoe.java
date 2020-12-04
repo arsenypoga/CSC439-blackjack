@@ -14,10 +14,16 @@ import java.util.logging.Logger;
  */
 public class Shoe {
     private final Random RANDOM = new Random();
-    private ArrayList<Deck> decks = new ArrayList<>();
     private final Logger logger = Logger.getLogger(Shoe.class.getName());
-    private int minimumSize;
-    private int initialDeckCount;
+    private final ArrayList<Deck> decks = new ArrayList<>();
+    private final int minimumSize;
+    private final int initialDeckCount;
+
+    /**
+     * Creates a Shoe which is a set of decks
+     *
+     * @param deckNumber number of decks
+     */
     public Shoe(int deckNumber) {
         logger.entering(getClass().getName(), "Shoe");
         initialDeckCount = deckNumber;
@@ -81,10 +87,13 @@ public class Shoe {
         return count;
     }
 
+    /**
+     * Cut the shoe. This repopulates the shoe with the same number of decks as it had before
+     */
     public void cut() {
         logger.entering(getClass().getName(), "shoe cut");
 
-        if (cardCount() <= minimumSize ) {
+        if (cardCount() <= minimumSize) {
             this.decks.clear();
             for (int i = 0; i < initialDeckCount; i++) {
                 this.decks.add(new Deck());

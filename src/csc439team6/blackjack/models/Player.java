@@ -9,10 +9,16 @@ import java.util.logging.Logger;
 public class Player extends AbstractPlayer {
     public static final int MINIMUM_BET = 10;
     public static final int MAXIMUM_BET = 500;
-    private int chips;
-    private int bet;
     private final Logger logger = Logger.getLogger(Player.class.getName());
 
+    private int chips;
+    private int bet;
+
+    /**
+     * Creates a player class with set amount of chips and initial bet set to 0
+     *
+     * @param chips amount of chips to use
+     */
     public Player(int chips) {
         super();
         logger.entering(getClass().getName(), "Player");
@@ -24,6 +30,7 @@ public class Player extends AbstractPlayer {
 
     /**
      * Gets chips
+     *
      * @return
      */
     public int getChips() {
@@ -34,7 +41,19 @@ public class Player extends AbstractPlayer {
     }
 
     /**
+     * Sets chips
+     *
+     * @param chips
+     */
+    public void setChips(int chips) {
+        logger.entering(getClass().getName(), "setChips");
+        this.chips = chips;
+        logger.exiting(getClass().getName(), "setChips");
+    }
+
+    /**
      * Adds chips to current chip balance
+     *
      * @param chips
      */
     public void addChips(int chips) {
@@ -45,6 +64,7 @@ public class Player extends AbstractPlayer {
 
     /**
      * Reduces current chip balance
+     *
      * @param chips
      */
     public void reduceChips(int chips) {
@@ -55,6 +75,7 @@ public class Player extends AbstractPlayer {
 
     /**
      * Gets bet
+     *
      * @return
      */
     public int getBet() {
@@ -64,7 +85,19 @@ public class Player extends AbstractPlayer {
     }
 
     /**
+     * Sets bet
+     *
+     * @param bet
+     */
+    public void setBet(int bet) {
+        logger.entering(getClass().getName(), "setBet");
+        this.bet = bet;
+        logger.exiting(getClass().getName(), "setBet");
+    }
+
+    /**
      * Increments current bet
+     *
      * @param bet
      */
     public void incrementBet(int bet) {
@@ -80,26 +113,6 @@ public class Player extends AbstractPlayer {
         logger.entering(getClass().getName(), "resetBet");
         this.bet = 0;
         logger.exiting(getClass().getName(), "resetBet");
-    }
-
-    /**
-     * Sets chips
-     * @param chips
-     */
-    public void setChips(int chips) {
-        logger.entering(getClass().getName(), "setChips");
-        this.chips = chips;
-        logger.exiting(getClass().getName(), "setChips");
-    }
-
-    /**
-     * Sets bet
-     * @param bet
-     */
-    public void setBet(int bet) {
-        logger.entering(getClass().getName(), "setBet");
-        this.bet = bet;
-        logger.exiting(getClass().getName(), "setBet");
     }
 }
 

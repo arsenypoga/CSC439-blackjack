@@ -1,18 +1,17 @@
 package csc439team6.blackjack.models;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
  * This is a hand of a blackjack game.
- *
+ * <p>
  * This only represents the hand.
  *
  * @author Greyson Fangman
  * @version 1.0
- *
- *
+ * <p>
+ * <p>
  * The hand object should be initialized with an empty collection of cards.
  * The addCard method should take a card as a parameter and add it to the hand.
  * The getCards method should return the collection of cards currently in the hand.
@@ -20,15 +19,18 @@ import java.util.logging.Logger;
  * Write appropriate JUnit tests to ensure all of the above logic works correctly.
  */
 public class Hand {
-    private ArrayList<Card> cards;
     private final Logger logger = Logger.getLogger(Hand.class.getName());
+    private final ArrayList<Card> cards;
 
+    /**
+     * Creates a new Hand object
+     */
     public Hand() {
         logger.entering(getClass().getName(), "Hand");
         cards = new ArrayList<>();
         logger.exiting(getClass().getName(), "Hand");
     }
-    
+
     /**
      * The addCard method should take a card as a parameter and add it to the hand.
      *
@@ -66,6 +68,9 @@ public class Hand {
         return cards;
     }
 
+    /**
+     * Clears the player's Hand
+     */
     public void clear() {
         logger.entering(getClass().getName(), "clear");
         logger.exiting(getClass().getName(), "clear");

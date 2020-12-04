@@ -2,10 +2,7 @@ package csc439team6.blackjack.views;
 
 import csc439team6.blackjack.models.AbstractPlayer;
 import csc439team6.blackjack.models.Action;
-import csc439team6.blackjack.models.Hand;
-import csc439team6.blackjack.models.Player;
 
-import java.io.IOError;
 import java.io.IOException;
 
 /**
@@ -16,12 +13,14 @@ public abstract class AbstractView {
 
     /**
      * Purchase initial chips, prompt user
+     *
      * @return number of chips purchased.
      */
     public abstract int promptPurchaseChips() throws IOException;
 
     /**
      * Get initial bet from User.
+     *
      * @return
      */
     public abstract int promptInitialBet() throws IOException;
@@ -31,12 +30,12 @@ public abstract class AbstractView {
      */
     public abstract int promptIncrementBet() throws IOException;
 
-    public abstract Action promptAction(Action ...allowedActions) throws IOException;
+    public abstract Action promptAction(Action... allowedActions) throws IOException;
+
     /**
      * shows play again game message.
      */
     public abstract boolean promptPlayAgain() throws IOException;
-
 
 
     /**
@@ -47,25 +46,76 @@ public abstract class AbstractView {
 
     /**
      * Displays current hand
+     *
      * @param player
      */
     public abstract void messageDisplayHand(AbstractPlayer player, int handScore);
+
+    /**
+     * Displays game started message
+     */
     public abstract void messageGameStarted();
+
+    /**
+     * Displays hit message
+     */
     public abstract void messageHit();
+
+    /**
+     * Displays Stand message
+     */
     public abstract void messageStand();
+
+    /**
+     * Displays double message
+     */
     public abstract void messageDouble();
 
+    /**
+     * Displays tie message
+     *
+     * @param score single tie score
+     */
     public abstract void messageTie(int score);
+
+    /**
+     * Displays Player win message
+     *
+     * @param playerScore player score
+     * @param dealerScore dealer score
+     */
     public abstract void messagePlayerWin(int playerScore, int dealerScore);
+
+    /**
+     * Displays Dealer win message
+     *
+     * @param playerScore player score
+     * @param dealerScore dealer score
+     */
     public abstract void messageDealerWin(int playerScore, int dealerScore);
 
+    /**
+     * Displays player bust message
+     */
     public abstract void messagePlayerBust();
+
+    /**
+     * Displays dealer bust message
+     *
+     * @param score
+     */
     public abstract void messageDealerBust(int score);
 
     /**
      * Message logs pertaining to dealer
      */
     public abstract void messageDealersTurn(int currentDealerScore);
+
+    /**
+     * Displays dealer hit message
+     *
+     * @param dealerScore dealer score
+     */
     public abstract void messageDisplayDealerHit(int dealerScore);
 
 
