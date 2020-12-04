@@ -34,45 +34,63 @@ public class CLIView extends AbstractView {
 
     @Override
     public void messageHit() {
+        logger.entering(getClass().getName(), "messageHit");
         System.out.println("You hit!");
+        logger.exiting(getClass().getName(), "messageHit");
     }
 
     @Override
     public void messageStand() {
+        logger.entering(getClass().getName(), "messageStand");
         System.out.println("You stand!");
+        logger.exiting(getClass().getName(), "messageStand");
     }
 
     @Override
     public void messageDouble() {
+        logger.entering(getClass().getName(), "messageDouble");
         System.out.println("You double!");
+        logger.exiting(getClass().getName(), "messageDouble");
     }
 
 
     @Override
     public void messageTie(int score) {
+        logger.entering(getClass().getName(), "messageTie");
         System.out.println("You and the dealer tie with a score of: " + score);
+        logger.exiting(getClass().getName(), "messageTie");
     }
 
     @Override
     public void messagePlayerWin(int playerScore, int dealerScore) {
+        logger.entering(getClass().getName(), "messageTie");
         System.out.println("Player wins with a score of: " + playerScore);
         System.out.println("Dealer score: " + dealerScore);
+        logger.exiting(getClass().getName(), "messageTie");
+
     }
 
     @Override
     public void messageDealerWin(int playerScore, int dealerScore) {
+        logger.entering(getClass().getName(), "messageDealerWin");
         System.out.println("Player score: " + playerScore);
         System.out.println("Dealer wins with a score of: " + dealerScore);
+        logger.entering(getClass().getName(), "messageDealerWin");
     }
 
     @Override
     public void messagePlayerBust() {
+        logger.entering(getClass().getName(), "messagePlayerBust");
         System.out.println("You bust!");
+        logger.entering(getClass().getName(), "messagePlayerBust");
     }
 
     @Override
     public void messageDealerBust(int score) {
+        logger.entering(getClass().getName(), "messageDealerBust");
         System.out.println("Dealer busts with a score of: " + score);
+        logger.entering(getClass().getName(), "messageDealerBust");
+
     }
 
     @Override
@@ -101,11 +119,14 @@ public class CLIView extends AbstractView {
     //TODO: cleanup this logic
     @Override
     public boolean promptPlayAgain() throws IOException {
+        logger.entering(getClass().getName(), "promptPlayAgain");
         System.out.println("Would you like to play again? (Y/N)");
         String line = scanLine();
         if (line.equalsIgnoreCase("Y")) {
+            logger.exiting(getClass().getName(), "promptPlayAgain");
             return true;
         } else {
+            logger.exiting(getClass().getName(), "promptPlayAgain");
             return false;
         }
     }
@@ -171,7 +192,9 @@ public class CLIView extends AbstractView {
 
     @Override
     public void messageDealersTurn(int currentDealerScore) {
+        logger.entering(getClass().getName(), "currentDealerScore");
         System.out.println("The dealer will now begin to play. The dealers hand value is: " + currentDealerScore);
+        logger.exiting(getClass().getName(), "currentDealerScore");
     }
 
     /**
@@ -288,6 +311,7 @@ public class CLIView extends AbstractView {
 
     @Override
     public Action promptAction(Action ...allowedActions) throws IOException {
+        logger.exiting(getClass().getName(), "promptAction");
         boolean isInputValid = false;
         Action returnAction = null;
         System.out.print("Do you want to: {}?: "+ Arrays.toString(allowedActions));
@@ -316,6 +340,7 @@ public class CLIView extends AbstractView {
             }
 
         }
+        logger.exiting(getClass().getName(), "promptAction");
         return returnAction;
     }
 

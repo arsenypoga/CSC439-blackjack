@@ -56,11 +56,16 @@ public class Card implements Comparable<Card> {
     }
 
     public boolean isVisible() {
+        logger.entering(getClass().getName(), "isVisible");
+        logger.exiting(getClass().getName(), "isVisible");
+
         return isVisible;
     }
 
     public void setVisible(boolean visible) {
+        logger.entering(getClass().getName(), "setVisible");
         isVisible = visible;
+        logger.exiting(getClass().getName(), "setVisible");
     }
 
     /**
@@ -99,17 +104,21 @@ public class Card implements Comparable<Card> {
      */
     @Override
     public String toString() {
-        logger.entering(getClass().getName(), "toString");
         logger.exiting(getClass().getName(), "toString");
+        logger.entering(getClass().getName(), "toString");
         return "<Card Number=(" + this.number.toString() + ") Suit=(" + this.suit.toString() + ")>";
     }
 
     public String displayString() {
+        logger.entering(getClass().getName(), "displayString");
+        logger.exiting(getClass().getName(), "displayString");
         return this.suit.toString().toUpperCase().charAt(0) + this.number.shortString();
     }
 
     @Override
     public int compareTo(Card o) {
+        logger.entering(getClass().getName(), "compareTo");
+        logger.exiting(getClass().getName(), "compareTo");
         return this.number.compareTo(o.number);
     }
 
