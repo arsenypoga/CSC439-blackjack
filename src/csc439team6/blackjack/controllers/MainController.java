@@ -66,15 +66,21 @@ public class MainController {
             displayHand(dealer, scoreHand(dealer.getHand()));
             Action action = null;
 
+
             //================================================================================
-            // Determine allowed actions
+            // Determine if 21, prompt for replay
             //================================================================================
             if (scoreHand(player.getHand()) == 21) {
                 view.messagePlayerWin(scoreHand(player.getHand()), scoreHand(dealer.getHand()));
                 if (playAgain()) {
                     continue;
                 }
-            } else if (scoreHand(player.getHand()) >= 9 && scoreHand(player.getHand()) <= 11) {
+            }
+
+            //================================================================================
+            // Determine allowed actions
+            //================================================================================
+             if (scoreHand(player.getHand()) >= 9 && scoreHand(player.getHand()) <= 11) {
                 action = promptAction(Action.HIT, Action.STAND, Action.DOUBLE);
             } else {
                 action = promptAction(Action.HIT, Action.STAND);
@@ -97,8 +103,9 @@ public class MainController {
                 view.messageDisplayHand(player, scoreHand(player.getHand()));
             }
 
-
-            // Player bust check
+            //================================================================================
+            // Did player bust?
+            //================================================================================
             int playerScore = scoreHand(player.getHand());
             if (playerScore > 21) {
                 view.messagePlayerBust();
@@ -108,6 +115,9 @@ public class MainController {
                 }
             }
 
+            //================================================================================
+            // Hit loop?
+            //================================================================================
             while (action != Action.STAND) {
                 action = promptAction(Action.HIT, Action.STAND);
                 if (action == Action.STAND) {
@@ -128,10 +138,6 @@ public class MainController {
             //================================================================================
             // Determine if either Player or Dealer have busted
             //================================================================================
-
-            // After all the actions player always stands.
-            // Therefore dealer must hit util the condition
-
             int dealerScore = scoreHand(dealer.getHand());
             view.messageDealersTurn(dealerScore);
             while (dealerScore < 17) {
@@ -139,7 +145,11 @@ public class MainController {
                 dealerScore = scoreHand(dealer.getHand());
                 view.messageDisplayDealerHit(dealerScore);
             }
-            // Check if the Dealer has busted
+
+            //================================================================================
+            // Has dealer busted?
+            //================================================================================
+
             if (dealerScore > 21) {
                 view.messageDealerBust(dealerScore);
                 view.messagePlayerWin(playerScore, dealerScore);
