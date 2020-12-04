@@ -100,7 +100,7 @@ public class CLIView extends AbstractView {
 
     //TODO: cleanup this logic
     @Override
-    public boolean playAgain() throws IOException {
+    public boolean promptPlayAgain() throws IOException {
         System.out.println("Would you like to play again? (Y/N)");
         String line = scanLine();
         if (line.equalsIgnoreCase("Y")) {
@@ -170,7 +170,7 @@ public class CLIView extends AbstractView {
     }
 
     @Override
-    public void dealersTurn(int currentDealerScore) {
+    public void messageDealersTurn(int currentDealerScore) {
         System.out.println("The dealer will now begin to play. The dealers hand value is: " + currentDealerScore);
     }
 

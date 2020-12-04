@@ -64,9 +64,10 @@ public class TestView extends AbstractView {
     }
 
     @Override
-    public void dealersTurn(int currentDealerScore) {
+    public void messageDealersTurn(int currentDealerScore) {
 
     }
+
 
     @Override
     public void messageDisplayDealerHit(int dealerScore) {
@@ -74,7 +75,7 @@ public class TestView extends AbstractView {
     }
 
     @Override
-    public boolean playAgain() throws IOException {
+    public boolean promptPlayAgain() {
         return false;
     }
 

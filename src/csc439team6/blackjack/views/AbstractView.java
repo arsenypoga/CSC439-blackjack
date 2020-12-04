@@ -32,6 +32,11 @@ public abstract class AbstractView {
     public abstract int promptIncrementBet() throws IOException;
 
     public abstract Action promptAction(Action ...allowedActions) throws IOException;
+    /**
+     * shows play again game message.
+     */
+    public abstract boolean promptPlayAgain() throws IOException;
+
 
 
     /**
@@ -60,13 +65,9 @@ public abstract class AbstractView {
     /**
      * Message logs pertaining to dealer
      */
-    public abstract void dealersTurn(int currentDealerScore);
+    public abstract void messageDealersTurn(int currentDealerScore);
     public abstract void messageDisplayDealerHit(int dealerScore);
 
-    /**
-     * shows play again game message.
-     */
-    public abstract boolean playAgain() throws IOException;
 
     /**
      * shows quit game message.
