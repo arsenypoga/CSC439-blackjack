@@ -1,6 +1,9 @@
 package csc439team6.blackjack.views;
 
-import csc439team6.blackjack.models.*;
+import csc439team6.blackjack.models.AbstractPlayer;
+import csc439team6.blackjack.models.Action;
+import csc439team6.blackjack.models.Card;
+import csc439team6.blackjack.models.Player;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -15,8 +18,8 @@ import java.util.logging.Logger;
  */
 public class CLIView extends AbstractView {
 
-    Scanner scanner = new Scanner(System.in);
     private final Logger logger = Logger.getLogger(CLIView.class.getName());
+    Scanner scanner = new Scanner(System.in);
 
     /**
      * Show game started message.
@@ -176,7 +179,7 @@ public class CLIView extends AbstractView {
             System.out.print("Dealer's hand : ");
             System.out.print("[ ");
             for (Card card : player.getHand().getCards()) {
-                if (card.isVisible()){
+                if (card.isVisible()) {
                     System.out.printf("%s ", card.displayString());
                 } else {
                     System.out.print("# ");
@@ -261,6 +264,7 @@ public class CLIView extends AbstractView {
 
     /**
      * Prompt player if he wants to increment bet, if so prompt player for the amount of the increment
+     *
      * @return int bet to increment, 0 if no input
      */
     @Override
@@ -274,19 +278,19 @@ public class CLIView extends AbstractView {
         boolean isFlagValid = false;
         boolean isNumberValid = false;
 
-        while(!isFlagValid) {
+        while (!isFlagValid) {
             if (line.equalsIgnoreCase("Y")) {
                 System.out.println("Increment number: ");
                 incrementNumber = validateIntString(scanLine());
                 while (!isNumberValid) {
                     if (incrementNumber > Player.MAXIMUM_BET) {
-                        logger.log(Level.WARNING, "Entered number exceeding Player.MAXIMUM_BET: " + Player.MAXIMUM_BET +"; Got: {1}", incrementNumber);
+                        logger.log(Level.WARNING, "Entered number exceeding Player.MAXIMUM_BET: " + Player.MAXIMUM_BET + "; Got: {1}", incrementNumber);
 
                         System.out.println("Player bet exceeds maximum allowed bet: " + Player.MAXIMUM_BET);
                         System.out.println("Increment number: ");
                         line = scanLine();
                     } else if (incrementNumber < Player.MINIMUM_BET) {
-                        logger.log(Level.WARNING, "Entered number below Player.MINIMUM_BET: " + Player.MINIMUM_BET +"; Got: {1}", incrementNumber);
+                        logger.log(Level.WARNING, "Entered number below Player.MINIMUM_BET: " + Player.MINIMUM_BET + "; Got: {1}", incrementNumber);
 
                         System.out.println("Player bet is below minimum allowed bet: " + Player.MINIMUM_BET);
                         System.out.println("Increment number: ");
@@ -310,20 +314,19 @@ public class CLIView extends AbstractView {
     }
 
     @Override
-    public Action promptAction(Action ...allowedActions) throws IOException {
+    public Action promptAction(Action... allowedActions) throws IOException {
         logger.exiting(getClass().getName(), "promptAction");
         boolean isInputValid = false;
         Action returnAction = null;
-        System.out.print("Do you want to: {}?: "+ Arrays.toString(allowedActions));
+        System.out.print("Do you want to: {}?: " + Arrays.toString(allowedActions));
         String line = scanLine();
 
-        while(!isInputValid) {
+        while (!isInputValid) {
             if (line.equalsIgnoreCase("HIT")) {
                 returnAction = Action.HIT;
             } else if (line.equalsIgnoreCase("DOUBLE")) {
                 returnAction = Action.DOUBLE;
-            }
-            else if (line.equalsIgnoreCase("STAND")) {
+            } else if (line.equalsIgnoreCase("STAND")) {
                 returnAction = Action.STAND;
             } else {
                 logger.log(Level.WARNING, "Entered message is not understood: {0}", line);
